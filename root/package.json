@@ -1,0 +1,14 @@
+{
+  "name": "etch",
+  "version": "1.0.0",
+  "description": "A sketching app with the feel of an editor.",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ./js/main.js"
+  },
+  "author": "Tai Sanh Nguyen",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^13.2.2"
+  }
+}

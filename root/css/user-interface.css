@@ -1,0 +1,55 @@
+* {
+    font-size: 14px;
+    font-family: Consolas, monaco, monospace;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    background-color: #2a2b33;
+}
+
+.text-editor-wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+.text-editor-content {
+    width: 100%;
+    height: 100%;
+    
+    margin-top: 0.5em;
+
+    display: flex;
+    flex-flow: row wrap;
+    
+    overflow: auto;
+}
+
+.line-numbers-wrapper {
+    display: flex;
+    flex-flow: column wrap;
+
+    margin-top: 2px;
+}
+
+.line-numbers-wrapper span {
+    width: 2em;
+    text-align: center;
+
+    color: #676b82;
+}
+
+.text-editor-textarea {
+    flex: 1;
+
+    outline: none;
+    border: none;
+    overflow: hidden;
+    overflow: auto;
+
+    background-color: #2a2b33;
+    
+    color: #aeb1be;   
+    white-space: nowrap;
+}
