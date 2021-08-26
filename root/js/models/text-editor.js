@@ -83,7 +83,15 @@ export class TextEditor {
         for (let i = 0; i < lineBreakCount; i++)
             textEditorLineNumbersWrapper.innerHTML += "<span>" + (i + 1) + "</span>";
 
-        textEditorLineNumbersWrapper.innerHTML += "<span></span>";
+        textEditorLineNumbersWrapper.innerHTML += "<span>-</span>";
+        textEditorLineNumbersWrapper.innerHTML += "<span>-</span>";
+        textEditorLineNumbersWrapper.innerHTML += "<span>-</span>";
+        textEditorLineNumbersWrapper.innerHTML += "<span>-</span>";
+        textEditorLineNumbersWrapper.innerHTML += "<span>-</span>";
+        textEditorLineNumbersWrapper.innerHTML += "<span>-</span>";
+        textEditorLineNumbersWrapper.innerHTML += "<span>-</span>";
+        textEditorLineNumbersWrapper.innerHTML += "<span>-</span>";
+
     }
 
     _addTab() {
