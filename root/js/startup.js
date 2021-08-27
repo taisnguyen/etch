@@ -6,8 +6,7 @@ window.globalVariables = {
 };
 
 // window variable to hold editor preferences
-window.editorPreferences = {
-    tabSpaceAmount: 4
-};
+window.editorPreferences = window.editorPreferencesAPI.read();
 
 const textEditor = new TextEditor({ "textEditorDOMElement": document.querySelector("#text-editor") });
+
