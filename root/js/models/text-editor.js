@@ -77,21 +77,14 @@ export class TextEditor {
         textEditorLineNumbersWrapper.innerHTML = "";
 
         /** TODO: CHANGE CODE BELOW. POOR PERFORMANCE AT LARGE LINE NUMBERS. */
-        
+
         const lineBreaks = textEditorTextArea.value.match(/\n/gi) || [];
         const lineBreakCount = (lineBreaks.length == 0) ? 1 : lineBreaks.length + 1;
         for (let i = 0; i < lineBreakCount; i++)
             textEditorLineNumbersWrapper.innerHTML += "<span>" + (i + 1) + "</span>";
 
-        textEditorLineNumbersWrapper.innerHTML += "<span>-</span>";
-        textEditorLineNumbersWrapper.innerHTML += "<span>-</span>";
-        textEditorLineNumbersWrapper.innerHTML += "<span>-</span>";
-        textEditorLineNumbersWrapper.innerHTML += "<span>-</span>";
-        textEditorLineNumbersWrapper.innerHTML += "<span>-</span>";
-        textEditorLineNumbersWrapper.innerHTML += "<span>-</span>";
-        textEditorLineNumbersWrapper.innerHTML += "<span>-</span>";
-        textEditorLineNumbersWrapper.innerHTML += "<span>-</span>";
-
+        // extra span to prevent content being pushed up by horizontal scrollbar issue
+        textEditorLineNumbersWrapper.innerHTML += "<span><br></span>";
     }
 
     _addTab() {
