@@ -44,7 +44,7 @@ export class TextEditor {
 
     _initializeDOMElement() {
         const textEditorWrapper = document.createElement("div");
-        textEditorWrapper.innerHTML = '<div class="text-editor-content"><div class="line-numbers-wrapper"><span>1</span></div><textarea class="text-editor-textarea" spellcheck="false"></textarea></div>';
+        textEditorWrapper.innerHTML = '<div class="text-editor-content"><div class="line-numbers-wrapper"><span>1</span></div><span><br></span><textarea class="text-editor-textarea" spellcheck="false"></textarea></div>';
 
         // increment global variable textEditorCount and set this.data["textEditorId"]
         this.data["textEditorId"] = ++window.globalVariables["textEditorCount"];
@@ -55,7 +55,6 @@ export class TextEditor {
     }
 
     _initialize() {
-
         // initialize DOMElement and replace TextEditor shell div
         this._initializeDOMElement();
         this.data["textEditorDOMElement"].replaceWith(this.DOMElement);
@@ -74,33 +73,40 @@ export class TextEditor {
         const textEditorTextArea = textEditorContent.querySelector(".text-editor-textarea");
         const textEditorLineNumbersWrapper = textEditorContent.querySelector(".line-numbers-wrapper");
 
-        textEditorLineNumbersWrapper.innerHTML = "";
-
-        /** TODO: CHANGE CODE BELOW. POOR PERFORMANCE AT LARGE LINE NUMBERS. */
-
         const lineBreaks = textEditorTextArea.value.match(/\n/gi) || [];
         const lineBreakCount = (lineBreaks.length == 0) ? 1 : lineBreaks.length + 1;
-        for (let i = 0; i < lineBreakCount; i++)
-            textEditorLineNumbersWrapper.innerHTML += "<span>" + (i + 1) + "</span>";
+        const spanCount = textEditorLineNumbersWrapper.children.length;
+        const lineCountDifference = spanCount - lineBreakCount;
 
-        // extra span to prevent content being pushed up by horizontal scrollbar issue
-        textEditorLineNumbersWrapper.innerHTML += "<span><br></span>";
+        // add spans
+        if (lineCountDifference < 0) {
+            textEditorLineNumbersWrapper.children[spanCount - 1].remove();
+            for (let i = 0; i < -lineCountDifference; i++)
+                textEditorLineNumbersWrapper.innerHTML += "<span>" + (spanCount + i + 1) + "</span>";
+
+            // extra span to prevent content being pushed up by horizontal scrollbar issue
+            textEditorLineNumbersWrapper.innerHTML += "<span><br></span>";
+        }
+
+        // remove spans
+        if (lineCountDifference > 0) {
+            console.log("remove");
+            for(let i = 0; i < lineCountDifference; i++)
+                textEditorLineNumbersWrapper.children[spanCount - i - 1].remove();
+        }
     }
 
     _addTab() {
 
     }
 
-    _onInput() {
+    _onInput(event) {
         this._updateLineNumber();
     }
 
     _onKeyDown(event) {
         // if tab 
     }
-
-
-
 
 
 
