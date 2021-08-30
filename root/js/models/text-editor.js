@@ -40,6 +40,7 @@ export class TextEditor {
         const textEditorTextArea = textEditorContent.querySelector(".text-editor-textarea");
 
         textEditorTextArea.addEventListener("input", this._onInput.bind(this));
+        textEditorTextArea.addEventListener("keydown", this._onKeyDown.bind(this));
     }
 
     _initializeDOMElement() {
@@ -97,22 +98,41 @@ export class TextEditor {
         }
 
         // remove spans
-        if (lineCountDifference > 0) 
-            for(let i = 0; i < lineCountDifference; i++)
+        if (lineCountDifference > 0)
+            for (let i = 0; i < lineCountDifference; i++)
                 textEditorLineNumbersWrapper.children[spanCount - i - 1].remove();
 
     }
 
     _addTab() {
+        const textEditorWrapper = document.querySelector("#text-editor" + this.data["textEditorId"]);
+        const textEditorContent = textEditorWrapper.querySelector(".text-editor-content");
+        const textEditorTextArea = textEditorContent.querySelector(".text-editor-textarea");
 
+        const tabSpaceAmount = window.userPreferences["editor.tabSpaceAmount"];
+        const selectionStart = textEditorTextArea.selectionStart;
+
+        let beforeSelectionText = textEditorTextArea.value.substring(0, selectionStart);
+        const afterSelectionText = textEditorTextArea.value.substring(selectionStart);
+
+        // add spaces in between before and after texts
+        for (let i = 0; i < tabSpaceAmount; i++) 
+            beforeSelectionText += " ";
+
+        textEditorTextArea.value = beforeSelectionText + afterSelectionText;
+
+        // move caret to end of inserted tab
+        textEditorTextArea.selectionStart = textEditorTextArea.selectionEnd = selectionStart + tabSpaceAmount;
     }
 
     _onInput(event) {
+        // update line number
         this._updateLineNumber();
     }
 
     _onKeyDown(event) {
-        // if tab 
+        // add tab 
+        if (event.key === "Tab") this._addTab();
     }
 
 

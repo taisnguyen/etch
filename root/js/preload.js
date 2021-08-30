@@ -3,18 +3,19 @@ const fs = require("fs");
 
 console.log("preload");
 
-// preferences config file
-contextBridge.exposeInMainWorld("editorPreferencesAPI", {
+// user preferences config file
+contextBridge.exposeInMainWorld("userPreferencesAPI", {
         
-    // read and return editorPreferences data
+    // read and return userPreferences data
     read: () => {
         // windows
         if (process.platform === "win32") {
             try {
-                const data = fs.readFileSync(process.env.APPDATA + "\\Etch\\editorPreferences.json", "utf8");
+                const data = fs.readFileSync(process.env.APPDATA + "\\Etch\\userPreferences.json", "utf8");
                 return JSON.parse(data);
             } catch (error) {
                 /** TODO: handle error */
+                console.log(error);
                 return;
             }
         }
