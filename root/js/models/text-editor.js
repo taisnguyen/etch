@@ -44,7 +44,7 @@ export class TextEditor {
 
     _initializeDOMElement() {
         const textEditorWrapper = document.createElement("div");
-        textEditorWrapper.innerHTML = '<div class="text-editor-content"><div class="line-numbers-wrapper"><span>1</span></div><textarea class="text-editor-textarea" spellcheck="false"></textarea></div>';
+        textEditorWrapper.innerHTML = '<div class="text-editor-content"><div class="line-numbers-wrapper"><span>1</span><span><br></span></div><textarea class="text-editor-textarea" spellcheck="false"></textarea></div>';
 
         // increment global variable textEditorCount and set this.data["textEditorId"]
         this.data["textEditorId"] = ++window.globalVariables["textEditorCount"];
@@ -55,7 +55,6 @@ export class TextEditor {
     }
 
     _initialize() {
-
         // initialize DOMElement and replace TextEditor shell div
         this._initializeDOMElement();
         this.data["textEditorDOMElement"].replaceWith(this.DOMElement);
@@ -74,23 +73,33 @@ export class TextEditor {
         const textEditorTextArea = textEditorContent.querySelector(".text-editor-textarea");
         const textEditorLineNumbersWrapper = textEditorContent.querySelector(".line-numbers-wrapper");
 
-        textEditorLineNumbersWrapper.innerHTML = "";
-
-        /** TODO: CHANGE CODE BELOW. POOR PERFORMANCE AT LARGE LINE NUMBERS. */
+        /** TODO: change method since .match method is too slow at large values. */
 
         const lineBreaks = textEditorTextArea.value.match(/\n/gi) || [];
         const lineBreakCount = (lineBreaks.length == 0) ? 1 : lineBreaks.length + 1;
-        for (let i = 0; i < lineBreakCount; i++)
-            textEditorLineNumbersWrapper.innerHTML += "<span>" + (i + 1) + "</span>";
+        const spanCount = textEditorLineNumbersWrapper.children.length - 1;
+        const lineCountDifference = spanCount - lineBreakCount;
 
-        textEditorLineNumbersWrapper.innerHTML += "<span></span>";
-        // textEditorLineNumbersWrapper.innerHTML += "<span>-</span>";
-        // textEditorLineNumbersWrapper.innerHTML += "<span>-</span>";
-        // textEditorLineNumbersWrapper.innerHTML += "<span>-</span>";
-        // textEditorLineNumbersWrapper.innerHTML += "<span>-</span>";
-        // textEditorLineNumbersWrapper.innerHTML += "<span>-</span>";
-        // textEditorLineNumbersWrapper.innerHTML += "<span>-</span>";
-        // textEditorLineNumbersWrapper.innerHTML += "<span>-</span>";
+        // add spans
+        if (lineCountDifference < 0) {
+            textEditorLineNumbersWrapper.children[spanCount].remove();
+
+            for (let i = 0; i < -lineCountDifference; i++) {
+                const lineNumberSpan = document.createElement("span");
+                lineNumberSpan.textContent = spanCount + i + 1;
+                textEditorLineNumbersWrapper.append(lineNumberSpan);
+            }
+
+            // extra span to prevent content being pushed up by horizontal scrollbar issue
+            const extraSpan = document.createElement("span");
+            extraSpan.innerHTML = "<br>";
+            textEditorLineNumbersWrapper.append(extraSpan);
+        }
+
+        // remove spans
+        if (lineCountDifference > 0) 
+            for(let i = 0; i < lineCountDifference; i++)
+                textEditorLineNumbersWrapper.children[spanCount - i - 1].remove();
 
     }
 
@@ -98,16 +107,13 @@ export class TextEditor {
 
     }
 
-    _onInput() {
+    _onInput(event) {
         this._updateLineNumber();
     }
 
     _onKeyDown(event) {
         // if tab 
     }
-
-
-
 
 
 
