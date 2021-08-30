@@ -88,7 +88,6 @@ export class TextEditor {
             textEditorLineNumbersWrapper.innerHTML += "<span><br></span>";
         }
 
-        
         // remove spans
         if (lineCountDifference > 0) {
             console.log("remove");
