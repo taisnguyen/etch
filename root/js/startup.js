@@ -6,7 +6,7 @@ window.globalVariables = {
 };
 
 // window variable to hold editor preferences
-window.editorPreferences = window.editorPreferencesAPI.read();
+window.userPreferences = window.userPreferencesAPI.read();
 
 const textEditor = new TextEditor({ "textEditorDOMElement": document.querySelector("#text-editor") });
 
