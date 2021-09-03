@@ -13,14 +13,73 @@ html, body {
 
 /** scrollbar styles */
 
-::-webkit-scrollbar { width: 16px;      }
-::-webkit-scrollbar-thumb { background: #3e3e3e; }
-::-webkit-scrollbar-thumb:hover { background: #4f4f4f; }
+::-webkit-scrollbar { width: 16px; }
+::-webkit-scrollbar-thumb { background: #3e404c; }
+::-webkit-scrollbar-thumb:hover { background: #444653; }
 ::-webkit-scrollbar-corner { background: rgba(0,0,0,0); }
+
+/** title bar styles */
+
+.title-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    
+    display: flex;
+
+    width: 100%;
+    height: 30px;
+
+    background-color: #22252b;
+}
+
+.title-bar-drag-region {    
+
+    -webkit-app-region: drag;
+    user-select: none;
+    
+    position: absolute;
+    top: 5px;
+
+    width: calc(100% - 5px);
+    height: 25px;
+}
+
+.title-bar-button {
+    z-index: 1;
+
+    -webkit-app-region: no-drag;
+
+    padding: 0 8px;
+}
+
+.title-bar-button:hover {
+    background-color: #393b41;
+}
+
+.title-bar-button-name {
+    user-select: none;
+
+    position: relative;
+    top: 5px;
+
+    color: #838793;
+    font-family: Segoe UI, Frutiger, Frutiger Linotype, Dejavu Sans, Helvetica Neue, Arial, sans-serif; 
+}
+
+/** menu bar styles */
+
+.menu-bar {
+    display: flex;
+    flex-shrink: 1;
+}
 
 /** nav bar styles */
 
 .user-interface-wrapper {
+    position: absolute;
+    top: 30px;
+
     display: flex;
     flex-flow: row wrap;
 
@@ -29,14 +88,12 @@ html, body {
 }
 
 .nav-bar {
-    z-index: 100;
-
     order: 2;
 
     display: flex;
     flex-flow: column;
 
-    width: 40px;
+    width: 50px;
     height: 100%;
 
     background-color: #383c44;
