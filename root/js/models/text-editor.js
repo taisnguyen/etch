@@ -10,6 +10,9 @@
  */
 
 
+import { TextEditorCanvas } from "./text-editor-canvas.js";
+
+
 
 
 /** 
@@ -59,6 +62,9 @@ export class TextEditor {
         // initialize DOMElement and replace TextEditor shell div
         this._initializeDOMElement();
         this.data["textEditorDOMElement"].replaceWith(this.DOMElement);
+
+        // instantiate TextEditorCanvas and assign its reference to this.data["canvas"]
+        this.data["canvas"] = new TextEditorCanvas();
 
         this._attachToEventListeners();
     }
@@ -116,7 +122,7 @@ export class TextEditor {
         const afterSelectionText = textEditorTextArea.value.substring(selectionStart);
 
         // add spaces in between before and after texts
-        for (let i = 0; i < tabSpaceAmount; i++) 
+        for (let i = 0; i < tabSpaceAmount; i++)
             beforeSelectionText += " ";
 
         textEditorTextArea.value = beforeSelectionText + afterSelectionText;
@@ -132,7 +138,10 @@ export class TextEditor {
 
     _onKeyDown(event) {
         // add tab 
-        if (event.key === "Tab") this._addTab();
+        if (event.key === "Tab") {
+            event.preventDefault();
+            this._addTab();
+        }
     }
 
 

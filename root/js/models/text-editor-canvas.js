@@ -10,6 +10,9 @@
  */
 
 
+import { SketchFigure } from "./sketch-figure.js";
+
+
 
 
 /** 
@@ -20,10 +23,7 @@
     /**
      * @param {Object} data an object containing key/value pairs of data
      * {
-     *    textEditorId         : id of the TextEditor
-     *    textEditorDOMElement : reference to the DOM element representing the TextEditor
-     *    text                 : text data in the TextEditor
-     *    canvas               : reference to a TextEditorCanvas instance
+     *    textEditorDOMElement : reference to the DOM element representing the TextEditorCanvas
      * }
      */
 
@@ -32,6 +32,14 @@
         this._DOMElement = null;
 
         this._initialize();
+    }
+
+    _initializeDOMElement() {
+       
+    }
+
+    _initialize() {
+
     }
 
     
