@@ -8,6 +8,7 @@
  * :root
  * --editor-textarea-background-color
  * --editor-textarea-text-font-family
+ * --editor-textarea-text-font-size
  * --editor-textarea-text-color
  * --editor-textarea-text-background-color-highlight
  * --editor-line-numbers-text-color
@@ -149,8 +150,9 @@ html, body {
 .line-numbers-wrapper span {
     width: 1.7em;
     text-align: center;
-
+    
     font-family: var(--editor-textarea-text-font-family);
+    font-size: var(--editor-textarea-text-font-size);
     color: var(--editor-line-numbers-text-color);
 }
 
@@ -166,7 +168,7 @@ html, body {
     background-color: var(--editor-textarea-background-color);
     
     font-family: var(--editor-textarea-text-font-family);
-    font-size: 45px;
+    font-size: var(--editor-textarea-text-font-size);
     color: var(--editor-textarea-text-color);   
     
     white-space: nowrap;
