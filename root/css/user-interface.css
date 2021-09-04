@@ -3,12 +3,27 @@
     font-family: Consolas, monaco, monospace;
 }
 
+/**
+ * global css variables controlled by javascript
+ * =============================================
+ * :root
+ * --editor-textarea-background-color
+ * --editor-textarea-text-font
+ * --editor-textarea-text-color
+ * --title-bar-background-color
+ * --title-bar-text-font
+ * --title-bar-text-color
+ */
+
 html, body {
     height: 100%;
     
     margin: 0;
     overflow: hidden;
     background-color: #2a2b33;
+}
+
+.wrapper {
 }
 
 /** scrollbar styles */
@@ -21,7 +36,9 @@ html, body {
 /** title bar styles */
 
 .title-bar {
-    position: absolute;
+    z-index: 1;
+
+    position: fixed;
     top: 0;
     left: 0;
     
@@ -77,14 +94,14 @@ html, body {
 /** nav bar styles */
 
 .user-interface-wrapper {
-    position: absolute;
+    position: fixed;
     top: 30px;
 
     display: flex;
     flex-flow: row wrap;
 
     width: 100%;
-    height: 100%;
+    height: calc(100% - 30px);
 }
 
 .nav-bar {
