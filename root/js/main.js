@@ -1,3 +1,15 @@
+/**
+ * AUTHOR:	TAI . SANH . NGUYEN
+ *
+ * [E] 
+ *  [T] 
+ *   [C] 
+ *    [H] 
+ *
+ * app entry point
+ */
+
+
 const { app, BrowserWindow } = require("electron");
 const path = require("path");
 

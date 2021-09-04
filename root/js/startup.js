@@ -1,4 +1,19 @@
+/**
+ * AUTHOR:	TAI . SANH . NGUYEN
+ *
+ * [E] 
+ *  [T] 
+ *   [C] 
+ *    [H] 
+ *
+ * startup script that gets called first when user-interface.html loads up
+ */
+
+
 import { TextEditor } from "./models/text-editor.js";
+
+
+
 
 // window variable to hold global variables
 window.globalVariables = {
