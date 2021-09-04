@@ -1,6 +1,5 @@
 * {
     font-size: 14px;
-    font-family: Consolas, monaco, monospace;
 }
 
 /**
@@ -8,12 +7,12 @@
  * =============================================
  * :root
  * --editor-textarea-background-color
- * --editor-textarea-text-font
+ * --editor-textarea-text-font-family
  * --editor-textarea-text-color
  * --editor-line-numbers-text-color
  *
  * --title-bar-background-color
- * --title-bar-button-text-font
+ * --title-bar-button-text-font-family
  * --title-bar-button-text-color
  * --title-bar-button-background-color-hover
  *
@@ -27,20 +26,14 @@ html, body {
     margin: 0;
     overflow: hidden;
     background-color: var(--editor-textarea-background-color);
-    /** #2a2b33 */
-}
-
-.wrapper {
 }
 
 /** scrollbar styles */
 
 ::-webkit-scrollbar { width: 16px; }
-::-webkit-scrollbar-thumb { background: var(--scroll-bar-thumb-background-color); }
-/** #3e404c */
-::-webkit-scrollbar-thumb:hover { background: var(--scroll-bar-thumb-background-color-hover); }
-/** #444653 */
-::-webkit-scrollbar-corner { background: rgba(0,0,0,0); }
+::-webkit-scrollbar-thumb { background-color: var(--scroll-bar-thumb-background-color); }
+::-webkit-scrollbar-thumb:hover { background-color: var(--scroll-bar-thumb-background-color-hover); }
+::-webkit-scrollbar-corner { background-color: rgba(0,0,0,0); }
 
 /** title bar styles */
 
@@ -57,7 +50,6 @@ html, body {
     height: 30px;
 
     background-color: var(--title-bar-background-color);
-    /** #22252b */
 }
 
 .title-bar-drag-region {    
@@ -82,7 +74,6 @@ html, body {
 
 .title-bar-button:hover {
     background-color: var(--title-bar-button-background-color-hover);
-    /** #393b41 */
 }
 
 .title-bar-button-name {
@@ -91,10 +82,8 @@ html, body {
     position: relative;
     top: 5px;
 
+    font-family: var(--title-bar-button-text-font-family);
     color: var(--title-bar-button-text-color);
-    /** #838793 */
-    font-family: var(--title-bar-button-text-font);
-    /** Segoe UI, Frutiger, Frutiger Linotype, Dejavu Sans, Helvetica Neue, Arial, sans-serif; */
 }
 
 /** menu bar styles */
@@ -161,7 +150,6 @@ html, body {
     text-align: center;
 
     color: var(--editor-line-numbers-text-color);
-    /** #676b82 */
 }
 
 .text-editor-textarea {
@@ -174,10 +162,10 @@ html, body {
     resize: none;
 
     background-color: var(--editor-textarea-background-color);
-    /** #2a2b33 */
     
+    font-family: var(--editor-textarea-text-font-family);
     color: var(--editor-textarea-text-color);   
-    /** #aeb1be */
+    
     white-space: nowrap;
 }
 
