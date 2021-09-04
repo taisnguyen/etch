@@ -9,6 +9,7 @@
  * --editor-textarea-background-color
  * --editor-textarea-text-font-family
  * --editor-textarea-text-color
+ * --editor-textarea-text-background-color-highlight
  * --editor-line-numbers-text-color
  *
  * --title-bar-background-color
@@ -148,7 +149,7 @@ html, body {
 .line-numbers-wrapper span {
     width: 1.7em;
     text-align: center;
-    
+
     font-family: var(--editor-textarea-text-font-family);
     color: var(--editor-line-numbers-text-color);
 }
@@ -165,8 +166,13 @@ html, body {
     background-color: var(--editor-textarea-background-color);
     
     font-family: var(--editor-textarea-text-font-family);
+    font-size: 45px;
     color: var(--editor-textarea-text-color);   
     
     white-space: nowrap;
+}
+
+.text-editor-textarea::selection {
+    background-color: var(--editor-textarea-text-background-color-highlight);
 }
 
