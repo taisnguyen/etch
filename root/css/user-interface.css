@@ -148,7 +148,8 @@ html, body {
 .line-numbers-wrapper span {
     width: 1.7em;
     text-align: center;
-
+    
+    font-family: var(--editor-textarea-text-font-family);
     color: var(--editor-line-numbers-text-color);
 }
 
