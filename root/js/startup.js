@@ -38,5 +38,3 @@ document.documentElement.style.setProperty("--scroll-bar-thumb-background-color"
 document.documentElement.style.setProperty("--scroll-bar-thumb-background-color-hover", window.userPreferences["style.scrollBarThumbBackgroundColorHover"])
 
 const textEditor = new TextEditor({ "textEditorDOMElement": document.querySelector("#text-editor") });
-
-WellAbcDef

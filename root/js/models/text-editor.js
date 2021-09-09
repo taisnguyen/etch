@@ -48,7 +48,7 @@ export class TextEditor {
 
     _initializeDOMElement() {
         const textEditorWrapper = document.createElement("div");
-        textEditorWrapper.innerHTML = '<div class="text-editor-content"><div class="line-numbers-wrapper"><span>1</span><span><br></span></div><textarea class="text-editor-textarea" spellcheck="false"></textarea></div>';
+        textEditorWrapper.innerHTML = '<div class="text-editor-content"><div class="line-numbers-wrapper"><span>1</span><span><br></span></div><textarea class="text-editor-textarea" spellcheck="false"></textarea><div id="text-editor-canvas"></div></div>';
 
         // increment global variable textEditorCount and set this.data["textEditorId"]
         this.data["textEditorId"] = ++window.globalVariables["textEditorCount"];
@@ -64,8 +64,11 @@ export class TextEditor {
         this.data["textEditorDOMElement"].replaceWith(this.DOMElement);
 
         // instantiate TextEditorCanvas and assign its reference to this.data["canvas"]
-        this.data["canvas"] = new TextEditorCanvas();
+        const textEditorWrapper = document.querySelector("#text-editor" + this.data["textEditorId"]);
+        const textEditorContent = textEditorWrapper.querySelector(".text-editor-content");
+        this.data["canvas"] = new TextEditorCanvas({ "textEditorCanvasDOMElement": textEditorContent.querySelector("#text-editor-canvas"), "textEditorDOMElement": document.querySelector("#text-editor" + this.data["textEditorId"]) });
 
+        // attach methods to event listeners
         this._attachToEventListeners();
     }
 
