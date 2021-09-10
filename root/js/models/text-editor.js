@@ -26,24 +26,31 @@ export class TextEditor {
      *    textEditorId         : id of the TextEditor                                     (READ-ONLY)
      *    textEditorDOMElement : reference to the DOM element representing the TextEditor
      *    text                 : text data in the TextEditor
-     *    canvas               : reference to a TextEditorCanvas instance
      * } 
      */
 
     constructor(data) {
         this._data = data || {};
         this._DOMElement = null;
+        this._canvas = null; 
 
         this._initialize();
     }
 
     _attachToEventListeners() {
-        const textEditorWrapper = document.querySelector("#text-editor" + this.data["textEditorId"]);
-        const textEditorContent = textEditorWrapper.querySelector(".text-editor-content");
+        const textEditorContent = this.DOMElement.querySelector(".text-editor-content");
         const textEditorTextArea = textEditorContent.querySelector(".text-editor-textarea");
+
+        // text editor
 
         textEditorTextArea.addEventListener("input", this._onInput.bind(this));
         textEditorTextArea.addEventListener("keydown", this._onKeyDown.bind(this));
+
+        // text editor canvas
+
+        this.DOMElement.addEventListener("mousemove", (e) => {
+            this.canvas._canvasContext.fillRect(e.clientX, e.clientY, 5, 5);
+         });
     }
 
     _initializeDOMElement() {
@@ -62,11 +69,11 @@ export class TextEditor {
         // initialize DOMElement and replace TextEditor shell div
         this._initializeDOMElement();
         this.data["textEditorDOMElement"].replaceWith(this.DOMElement);
+        this.data["textEditorDOMElement"] = this.DOMElement;
 
-        // instantiate TextEditorCanvas and assign its reference to this.data["canvas"]
-        const textEditorWrapper = document.querySelector("#text-editor" + this.data["textEditorId"]);
-        const textEditorContent = textEditorWrapper.querySelector(".text-editor-content");
-        this.data["canvas"] = new TextEditorCanvas({ "textEditorCanvasDOMElement": textEditorContent.querySelector("#text-editor-canvas"), "textEditorDOMElement": document.querySelector("#text-editor" + this.data["textEditorId"]) });
+        // instantiate TextEditorCanvas and assign its reference to this.canvas
+        const textEditorContent = this.DOMElement.querySelector(".text-editor-content");
+        this._canvas = new TextEditorCanvas({ "textEditorCanvasDOMElement": textEditorContent.querySelector("#text-editor-canvas"), "textEditorDOMElement": this.data["textEditorDOMElement"] });
 
         // attach methods to event listeners
         this._attachToEventListeners();
@@ -78,8 +85,7 @@ export class TextEditor {
     // text editor
 
     _updateLineNumber() {
-        const textEditorWrapper = document.querySelector("#text-editor" + this.data["textEditorId"]);
-        const textEditorContent = textEditorWrapper.querySelector(".text-editor-content");
+        const textEditorContent = this.DOMElement.querySelector(".text-editor-content");
         const textEditorTextArea = textEditorContent.querySelector(".text-editor-textarea");
         const textEditorLineNumbersWrapper = textEditorContent.querySelector(".line-numbers-wrapper");
 
@@ -114,8 +120,7 @@ export class TextEditor {
     }
 
     _addTab() {
-        const textEditorWrapper = document.querySelector("#text-editor" + this.data["textEditorId"]);
-        const textEditorContent = textEditorWrapper.querySelector(".text-editor-content");
+        const textEditorContent = this.DOMElement.querySelector(".text-editor-content");
         const textEditorTextArea = textEditorContent.querySelector(".text-editor-textarea");
 
         const tabSpaceAmount = window.userPreferences["editor.tabSpaceAmount"];
@@ -162,9 +167,8 @@ export class TextEditor {
         return this._DOMElement;
     }
 
-    set DOMElement(DOMElement) {
-        this._DOMElement = DOMElement;
+    get canvas() {
+        return this._canvas;
     }
-
 
 }
