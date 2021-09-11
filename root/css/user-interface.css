@@ -246,6 +246,8 @@ html, body {
 }
 
 .line-numbers-wrapper span {
+    user-select: none;
+
     width: 1.7em;
     text-align: center;
     

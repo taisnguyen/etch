@@ -31,12 +31,16 @@ export class SketchFigure {
 
         canvasContext.beginPath();
         canvasContext.moveTo(this.sketchPoints[0].x, this.sketchPoints[0].y);
-
         
+        // using bezier curves, connect the points in the SketchFigure
+        for (let i = 0; i < this.sketchPoints.length - 2; i++) {
+            const averageX = (this.sketchPoints[i].x, this.sketchPoints[i + 1].x) / 2;
+            const averageY = (this.sketchPoints[i].Y, this.sketchPoints[i + 1].Y) / 2;
+            canvasContext.quadraticCurveTo(this.sketchPoints[i].x, this.sketchPoints[i].y, averageX, averageY);
+        }
 
+        canvasContext.stroke();
         canvasContext.restore();
-
-
     }
 
 

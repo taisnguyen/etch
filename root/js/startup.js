@@ -11,6 +11,8 @@
 
 
 import { TextEditor } from "./models/text-editor.js";
+import { SketchFigure } from "./models/sketch-figure.js";
+import { SketchPoint } from "./models/sketch-point.js";
 
 
 
@@ -38,3 +40,5 @@ document.documentElement.style.setProperty("--scroll-bar-thumb-background-color"
 document.documentElement.style.setProperty("--scroll-bar-thumb-background-color-hover", window.userPreferences["style.scrollBarThumbBackgroundColorHover"])
 
 const textEditor = new TextEditor({ "textEditorDOMElement": document.querySelector("#text-editor") });
+
+const sketch = new SketchFigure( [ new SketchPoint(100, 150), new SketchPoint(130, 150), new SketchPoint(150, 180), new SketchPoint(170, 220) ]);

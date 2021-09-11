@@ -96,7 +96,7 @@ export class TextEditorCanvas {
    }
 
    get canvasContext() {
-      return this.canvasContext;
+      return this._canvasContext;
    }
 
 }
