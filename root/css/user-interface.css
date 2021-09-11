@@ -30,6 +30,17 @@ html, body {
     background-color: var(--editor-textarea-background-color);
 }
 
+.user-interface-wrapper {
+    position: fixed;
+    top: 30px;
+
+    display: flex;
+    flex-flow: row wrap;
+
+    width: 100%;
+    height: calc(100% - 30px);
+}
+
 /** scrollbar styles */
 
 ::-webkit-scrollbar { width: 16px; }
@@ -80,14 +91,6 @@ html, body {
 .window-controls-close:hover {
     background-image: url("../images/window-controls-close-light-highlighted.png");
     background-color: #c52631;
-}
-
-.window-controls-maximize {
-
-}
-
-.window-controls-close {
-
 }
 
 /** title bar styles */
@@ -149,17 +152,6 @@ html, body {
 
 /** nav bar styles */
 
-.user-interface-wrapper {
-    position: fixed;
-    top: 30px;
-
-    display: flex;
-    flex-flow: row wrap;
-
-    width: 100%;
-    height: calc(100% - 30px);
-}
-
 .nav-bar {
     order: 2;
 
@@ -170,6 +162,59 @@ html, body {
     height: 100%;
 
     background-color: #383c44;
+}
+
+.nav-bar-item {
+    height: 50px;
+    border-bottom: 2px solid var(--editor-textarea-background-color);
+    margin-bottom: -2px;
+}
+
+.nav-bar-item:hover {
+    border-left: 1px solid var(--editor-textarea-background-color);
+}
+
+.nav-bar-item-cursor {
+    background-image: url("../images/nav-bar-item-cursor.png");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.nav-bar-item-cursor:hover {
+    cursor: pointer;
+
+    background-image: url("../images/nav-bar-item-cursor-highlighted.png");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.nav-bar-item-pencil {
+    background-image: url("../images/nav-bar-item-pencil.png");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.nav-bar-item-pencil:hover {
+    cursor: pointer;
+
+    background-image: url("../images/nav-bar-item-pencil-highlighted.png");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+.nav-bar-item-eraser {
+    background-image: url("../images/nav-bar-item-eraser.png");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.nav-bar-item-eraser:hover {
+    cursor: pointer;
+
+    background-image: url("../images/nav-bar-item-eraser-highlighted.png");
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 /** text editor styles */
@@ -242,5 +287,5 @@ html, body {
     width: 100%;
     height: 100%;
     background-color: red;
-    opacity: 0.2;
+    opacity: 0;
 }
