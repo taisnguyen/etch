@@ -68,7 +68,8 @@ export class TextEditorCanvas {
       // canvas context settings
       this.canvasContext.lineJoin = 'round';
       this.canvasContext.lineCap = 'round';
-      this.canvasContext.lineWidth = 10;
+      this.canvasContext.lineWidth = 2;
+      this.canvasContext.strokeStyle = "#4c4c4e";
 
       // attach methods to event listeners
       this._attachToEventListeners();

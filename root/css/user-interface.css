@@ -13,6 +13,8 @@
  * --editor-textarea-text-background-color-highlight
  * --editor-line-numbers-text-color
  *
+ * --nav-bar-background-color
+ *
  * --title-bar-background-color
  * --title-bar-button-text-font-family
  * --title-bar-button-text-color
@@ -163,7 +165,7 @@ html, body {
     width: 50px;
     height: 100%;
 
-    background-color: #383c44;
+    background-color: var(--nav-bar-background-color);
 }
 
 .nav-bar-item {

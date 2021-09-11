@@ -33,8 +33,6 @@ export class SketchFigure {
         //canvasContext.save();
         //canvasContext.strokeStyle = this.color;
 
-        canvasContext.lineWidth = 10;
-
         canvasContext.beginPath();
         canvasContext.moveTo(this.sketchPoints[0].x, this.sketchPoints[0].y);
         
