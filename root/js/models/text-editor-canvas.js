@@ -33,7 +33,6 @@ export class TextEditorCanvas {
       this._DOMElement = null;
       this._canvas = null;
       this._canvasContext = null;
-      
       this._sketchFigures = [];
 
       this._initialize();
@@ -75,8 +74,14 @@ export class TextEditorCanvas {
       this._attachToEventListeners();
    }
 
+   _finishSketchFigure() {
+      
+   }
 
 
+   sketch(event) {
+
+   }
 
    drawSketchFigures() {
       for (const sketchFigure of this.sketchFigures) 

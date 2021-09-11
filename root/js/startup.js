@@ -19,7 +19,8 @@ import { SketchPoint } from "./models/sketch-point.js";
 
 // window variable to hold global variables
 window.globalVariables = {
-    textEditorCount: 0
+    textEditorCount: 0,
+    userCurrentAction: "cursor"
 };
 
 // window variable to hold editor preferences
