@@ -166,6 +166,7 @@ html, body {
 
 .nav-bar-item {
     height: 50px;
+    min-height: 25px;
     border-bottom: 2px solid var(--editor-textarea-background-color);
     margin-bottom: -2px;
 }
