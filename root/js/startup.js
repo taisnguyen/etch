@@ -41,4 +41,17 @@ document.documentElement.style.setProperty("--scroll-bar-thumb-background-color-
 
 const textEditor = new TextEditor({ "textEditorDOMElement": document.querySelector("#text-editor") });
 
-const sketch = new SketchFigure( [ new SketchPoint(100, 150), new SketchPoint(130, 150), new SketchPoint(150, 180), new SketchPoint(170, 220) ]);
+const sketch = new SketchFigure();
+
+textEditor.DOMElement.addEventListener("mousemove", (event) => {
+    const rect = textEditor.textEditorCanvas.canvas.getBoundingClientRect();
+    const mousePosition = [ event.pageX - rect.left, event.pageY - rect.top ];
+
+    textEditor.textEditorCanvas.canvasContext.clearRect(0, 0, textEditor.textEditorCanvas.canvas.width, textEditor.textEditorCanvas.canvas.height);
+    //textEditor.textEditorCanvas.canvasContext.fillRect(mousePosition[0], mousePosition[1], 2, 2);
+    sketch.sketchPoints.push( new SketchPoint(mousePosition[0], mousePosition[1]) );
+    textEditor.textEditorCanvas.sketchFigures[0] = sketch;
+    textEditor.textEditorCanvas.canvasContext.fillRect(mousePosition[0], mousePosition[1], 1, 1);
+    textEditor.textEditorCanvas.drawSketchFigures(textEditor.textEditorCanvas.canvasContext);
+
+});

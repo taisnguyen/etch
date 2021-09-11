@@ -32,7 +32,7 @@ export class TextEditor {
     constructor(data) {
         this._data = data || {};
         this._DOMElement = null;
-        this._canvas = null; 
+        this._textEditorCanvas = null; 
 
         this._initialize();
     }
@@ -48,16 +48,16 @@ export class TextEditor {
 
         // text editor canvas
 
-        this.DOMElement.addEventListener("mousemove", (e) => {
-            this.canvas._canvasContext.fillRect(e.clientX, e.clientY, 5, 5);
-         });
+        // this.DOMElement.addEventListener("mousemove", (e) => {
+        //     this.canvas._canvasContext.fillRect(e.clientX, e.clientY, 5, 5);
+        //  });
     }
 
     _initializeDOMElement() {
         const textEditorWrapper = document.createElement("div");
         textEditorWrapper.innerHTML = '<div class="text-editor-content"><div class="line-numbers-wrapper"><span>1</span><span><br></span></div><textarea class="text-editor-textarea" spellcheck="false"></textarea><div id="text-editor-canvas"></div></div>';
 
-        // increment global variable textEditorCount and set this.data["textEditorId"]
+        // increment global variable textEditorCount then set this.data["textEditorId"]
         this.data["textEditorId"] = ++window.globalVariables["textEditorCount"];
         textEditorWrapper.classList.add("text-editor-wrapper");
         textEditorWrapper.id = "text-editor" + this.data["textEditorId"];
@@ -73,7 +73,7 @@ export class TextEditor {
 
         // instantiate TextEditorCanvas and assign its reference to this.canvas
         const textEditorContent = this.DOMElement.querySelector(".text-editor-content");
-        this._canvas = new TextEditorCanvas({ "textEditorCanvasDOMElement": textEditorContent.querySelector("#text-editor-canvas"), "textEditorDOMElement": this.data["textEditorDOMElement"] });
+        this._textEditorCanvas = new TextEditorCanvas({ "textEditorCanvasDOMElement": textEditorContent.querySelector("#text-editor-canvas"), "textEditorDOMElement": this.data["textEditorDOMElement"] });
 
         // attach methods to event listeners
         this._attachToEventListeners();
@@ -167,8 +167,8 @@ export class TextEditor {
         return this._DOMElement;
     }
 
-    get canvas() {
-        return this._canvas;
+    get textEditorCanvas() {
+        return this._textEditorCanvas;
     }
 
 }

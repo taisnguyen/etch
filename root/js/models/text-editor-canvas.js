@@ -31,9 +31,10 @@ export class TextEditorCanvas {
    constructor(data) {
       this._data = data || {};
       this._DOMElement = null;
+      this._canvas = null;
       this._canvasContext = null;
       
-      this._drawnSketchFigures = [];
+      this._sketchFigures = [];
 
       this._initialize();
    }
@@ -50,7 +51,7 @@ export class TextEditorCanvas {
       this._DOMElement = textEditorCanvasWrapper;
 
       // adjust canvas width and height
-      this._DOMElement.querySelector("canvas").width = window.innerWidth;
+      this._DOMElement.querySelector("canvas").width = window.innerWidth - 50; // -50px for nav-bar
       this._DOMElement.querySelector("canvas").height = window.innerHeight;
    }
 
@@ -60,11 +61,25 @@ export class TextEditorCanvas {
       this.data["textEditorCanvasDOMElement"].replaceWith(this.DOMElement);
       this.data["textEditorCanvasDOMElement"] = this.DOMElement;
 
-      // assign canvas context
-      this._canvasContext = this.DOMElement.querySelector("canvas").getContext("2d");
+      // assign canvas and canvas context
+      this._canvas = this.DOMElement.querySelector("canvas");
+      this._canvasContext = this.canvas.getContext("2d");
+
+      // canvas context settings
+      this.canvasContext.lineJoin = 'round';
+      this.canvasContext.lineCap = 'round';
+      this.canvasContext.lineWidth = 10;
 
       // attach methods to event listeners
       this._attachToEventListeners();
+   }
+
+
+
+
+   drawSketchFigures() {
+      for (const sketchFigure of this.sketchFigures) 
+         sketchFigure.draw(this.canvasContext);
    }
 
    /** ==================================== */
@@ -73,14 +88,17 @@ export class TextEditorCanvas {
    // canvas
 
    _adjustDimensions() {
-      this.DOMElement.querySelector("canvas").width = window.innerWidth;
+      this.DOMElement.querySelector("canvas").width = window.innerWidth; // -50px for nav-bar
       this.DOMElement.querySelector("canvas").height = window.innerHeight;
+      this.drawSketchFigures();
    }
 
    _onResize() {
       // on resize, adjust the canvas's width and height
       this._adjustDimensions();
    }
+
+
 
 
    get data() {
@@ -95,8 +113,20 @@ export class TextEditorCanvas {
       return this._DOMElement;
    }
 
+   get canvas() {
+      return this._canvas;
+   }
+
    get canvasContext() {
       return this._canvasContext;
+   }
+
+   get sketchFigures() {
+      return this._sketchFigures;
+   }
+
+   set sketchFigures(sketchFigures) {
+      this._sketchFigures = sketchFigures;
    }
 
 }

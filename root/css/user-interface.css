@@ -153,6 +153,8 @@ html, body {
 /** nav bar styles */
 
 .nav-bar {
+    z-index: 1;
+
     order: 2;
 
     display: flex;
@@ -274,6 +276,14 @@ html, body {
     white-space: nowrap;
 }
 
+.text-editor-textarea:hover {
+    cursor: url("../images/cursor-pencil.png"), url("../images/cursor-pencil.png"), default;
+}
+
+.line-numbers-wrapper:hover {
+    cursor: url("../images/cursor-pencil.png"), url("../images/cursor-pencil.png"), default;
+}
+
 .text-editor-textarea::selection {
     background-color: var(--editor-textarea-text-background-color-highlight);
 }
@@ -286,9 +296,4 @@ html, body {
     position: absolute;
     top: 0;
     left: 0;
-
-    width: 100%;
-    height: 100%;
-    background-color: red;
-    opacity: 0;
 }
