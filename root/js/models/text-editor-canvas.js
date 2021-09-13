@@ -48,34 +48,37 @@ export class TextEditorCanvas {
       textEditorCanvasWrapper.classList.add("text-editor-canvas-wrapper");
 
       this._DOMElement = textEditorCanvasWrapper;
+   }
 
-      // adjust canvas width and height
-      this._DOMElement.querySelector("canvas").width = window.innerWidth - 50; // -50px for nav-bar
-      this._DOMElement.querySelector("canvas").height = window.innerHeight;
+   _setCanvasContextSettings() {
+      this.canvasContext.lineJoin = 'round';
+      this.canvasContext.lineCap = 'round';
+      this.canvasContext.lineWidth = 6;
    }
 
    _initialize() {
       // initialize DOMElement and replace TextEditorCanvas shell div
       this._initializeDOMElement();
       this.data["textEditorCanvasDOMElement"].replaceWith(this.DOMElement);
-      this.data["textEditorCanvasDOMElement"] = this.DOMElement;
+      //this.data["textEditorCanvasDOMElement"] = this.DOMElement;
 
       // assign canvas and canvas context
       this._canvas = this.DOMElement.querySelector("canvas");
       this._canvasContext = this.canvas.getContext("2d");
 
+      // adjust canvas width and height
+      this.canvas.width = window.innerWidth;
+      this.canvas.height = window.innerHeight;
+
       // canvas context settings
-      this.canvasContext.lineJoin = 'round';
-      this.canvasContext.lineCap = 'round';
-      this.canvasContext.lineWidth = 2;
-      this.canvasContext.strokeStyle = "#4c4c4e";
+      this._setCanvasContextSettings();
 
       // attach methods to event listeners
       this._attachToEventListeners();
    }
 
    _finishSketchFigure() {
-      
+
    }
 
 
@@ -94,8 +97,11 @@ export class TextEditorCanvas {
    // canvas
 
    _adjustDimensions() {
-      this.DOMElement.querySelector("canvas").width = window.innerWidth; // -50px for nav-bar
-      this.DOMElement.querySelector("canvas").height = window.innerHeight;
+      this.canvas.width = window.innerWidth;
+      this.canvas.height = window.innerHeight;
+      this._setCanvasContextSettings();
+
+      this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.drawSketchFigures();
    }
 

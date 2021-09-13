@@ -176,6 +176,8 @@ html, body {
 }
 
 .nav-bar-item:hover {
+    cursor: pointer;
+
     border-left: 1px solid var(--editor-textarea-background-color);
 }
 
@@ -186,11 +188,7 @@ html, body {
 }
 
 .nav-bar-item-cursor:hover {
-    cursor: pointer;
-
     background-image: url("../images/nav-bar-item-cursor-highlighted.png");
-    background-repeat: no-repeat;
-    background-position: center;
 }
 
 .nav-bar-item-pencil {
@@ -200,13 +198,8 @@ html, body {
 }
 
 .nav-bar-item-pencil:hover {
-    cursor: pointer;
-
     background-image: url("../images/nav-bar-item-pencil-highlighted.png");
-    background-repeat: no-repeat;
-    background-position: center;
 }
-
 
 .nav-bar-item-eraser {
     background-image: url("../images/nav-bar-item-eraser.png");
@@ -215,11 +208,7 @@ html, body {
 }
 
 .nav-bar-item-eraser:hover {
-    cursor: pointer;
-
     background-image: url("../images/nav-bar-item-eraser-highlighted.png");
-    background-repeat: no-repeat;
-    background-position: center;
 }
 
 /** text editor styles */
@@ -298,4 +287,5 @@ html, body {
     position: absolute;
     top: 0;
     left: 0;
+
 }

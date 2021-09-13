@@ -10,6 +10,7 @@
  */
 
 
+import { onSelectCursorAction, onSelectPencilAction, onSelectEraserAction } from "./ui/nav-bar.js";
 import { TextEditor } from "./models/text-editor.js";
 import { SketchFigure } from "./models/sketch-figure.js";
 import { SketchPoint } from "./models/sketch-point.js";
@@ -41,7 +42,19 @@ document.documentElement.style.setProperty("--title-bar-button-background-color-
 document.documentElement.style.setProperty("--scroll-bar-thumb-background-color", window.userPreferences["style.scrollBarThumbBackgroundColor"]);
 document.documentElement.style.setProperty("--scroll-bar-thumb-background-color-hover", window.userPreferences["style.scrollBarThumbBackgroundColorHover"]);
 
+// main TextEditor instance
 const textEditor = new TextEditor({ "textEditorDOMElement": document.querySelector("#text-editor") });
+
+// assign methods to event listeners on nav bar buttons
+
+onSelectCursorAction(); // default seletcted action
+
+document.querySelector(".nav-bar-item-cursor").addEventListener("click", onSelectCursorAction);
+document.querySelector(".nav-bar-item-pencil").addEventListener("click", onSelectPencilAction);
+document.querySelector(".nav-bar-item-eraser").addEventListener("click", onSelectEraserAction);
+
+
+
 
 const sketch = new SketchFigure();
 
@@ -50,10 +63,9 @@ textEditor.DOMElement.addEventListener("mousemove", (event) => {
     const mousePosition = [ event.pageX - rect.left, event.pageY - rect.top ];
 
     textEditor.textEditorCanvas.canvasContext.clearRect(0, 0, textEditor.textEditorCanvas.canvas.width, textEditor.textEditorCanvas.canvas.height);
-    //textEditor.textEditorCanvas.canvasContext.fillRect(mousePosition[0], mousePosition[1], 2, 2);
-    sketch.sketchPoints.push( new SketchPoint(mousePosition[0], mousePosition[1]) );
+    textEditor.textEditorCanvas.canvasContext.fillRect(mousePosition[0], mousePosition[1], 2, 2);
+    sketch.sketchPoints.push(new SketchPoint(mousePosition[0], mousePosition[1]));
     textEditor.textEditorCanvas.sketchFigures[0] = sketch;
     textEditor.textEditorCanvas.canvasContext.fillRect(mousePosition[0], mousePosition[1], 1, 1);
     textEditor.textEditorCanvas.drawSketchFigures(textEditor.textEditorCanvas.canvasContext);
-
 });

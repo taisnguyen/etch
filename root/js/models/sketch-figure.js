@@ -21,7 +21,7 @@ export class SketchFigure {
      * @param {Object[]} sketchPoints
      */     
 
-    constructor(sketchPoints = [], color = "#000000") {
+    constructor(sketchPoints = [], color = "#4c4c4e") {
         this.sketchPoints = sketchPoints;
         this.color = color;
     }
@@ -30,8 +30,8 @@ export class SketchFigure {
 
         if (this.sketchPoints.length < 6) return;
 
-        //canvasContext.save();
-        //canvasContext.strokeStyle = this.color;
+        canvasContext.save();
+        canvasContext.strokeStyle = this.color;
 
         canvasContext.beginPath();
         canvasContext.moveTo(this.sketchPoints[0].x, this.sketchPoints[0].y);
@@ -44,7 +44,7 @@ export class SketchFigure {
         }
 
         canvasContext.stroke();
-        //canvasContext.restore();
+        canvasContext.restore();
     }
 
 
