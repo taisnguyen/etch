@@ -90,7 +90,6 @@ export class TextEditor {
     // text editor
 
     _updateLineNumber() {
-        const textEditorContent = this.DOMElement.querySelector(".text-editor-content");
         const textEditorTextArea = this.DOMElement.querySelector(".text-editor-textarea");
         const textEditorLineNumbersWrapper = this.DOMElement.querySelector(".line-numbers-wrapper");
 
@@ -125,7 +124,6 @@ export class TextEditor {
     }
 
     _addTab() {
-        const textEditorContent = this.DOMElement.querySelector(".text-editor-content");
         const textEditorTextArea = this.DOMElement.querySelector(".text-editor-textarea");
 
         const tabSpaceAmount = window.userPreferences["editor.tabSpaceAmount"];
@@ -145,15 +143,20 @@ export class TextEditor {
     }
 
     _onMouseDown(event) {
-        this._mouseDown = true;
-        if (this.currentAction === "pencil")
-            this.textEditorCanvas.sketch(event);
+        if (!this._mouseDown) {
+            this._mouseDown = true;
+            this._mouseDownButton = event["button"];
+            if (this.currentAction === "pencil")
+                this.textEditorCanvas.sketch(event);
+        }
     }
 
-    _onMouseUp() {
-        this._mouseDown = false;
-        if (this.currentAction === "pencil")
-            this.textEditorCanvas.finishSketching();
+    _onMouseUp(event) {
+        if (this._mouseDownButton === event["button"]) {
+            this._mouseDown = false;
+            if (this.currentAction === "pencil")
+                this.textEditorCanvas.finishSketching();
+        }
     }
 
     _onMouseMove(event) {

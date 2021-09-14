@@ -35,7 +35,7 @@ export function onSelectCursorAction() {
     
     for(const editor of window.globalVariables["editors"]) {
         editor.currentAction = "cursor";
-        editor.DOMElement.querySelector(".text-editor-textarea").style.cursor = "text";
+        editor.DOMElement.querySelector(".text-editor-content").style.cursor = "text";
         editor.DOMElement.querySelector(".line-numbers-wrapper").style.cursor = "default";
         editor.DOMElement.querySelector(".text-editor-textarea").style.pointerEvents = "initial";
     }
@@ -49,7 +49,7 @@ export function onSelectPencilAction() {
 
     for(const editor of window.globalVariables["editors"]) {
         editor.currentAction = "pencil"
-        editor.DOMElement.querySelector(".text-editor-textarea").style.cursor = 'url("../images/cursor-pencil.png"), url("../images/cursor-pencil.png"), default';
+        editor.DOMElement.querySelector(".text-editor-content").style.cursor = 'url("../images/cursor-pencil.png"), url("../images/cursor-pencil.png"), default';
         editor.DOMElement.querySelector(".line-numbers-wrapper").style.cursor = 'url("../images/cursor-pencil.png"), url("../images/cursor-pencil.png"), default';
         editor.DOMElement.querySelector(".text-editor-textarea").style.pointerEvents = "none";
     }
@@ -63,7 +63,7 @@ export function onSelectEraserAction() {
 
     for(const editor of window.globalVariables["editors"]) {
         editor.currentAction = "eraser"
-        editor.DOMElement.querySelector(".text-editor-textarea").style.cursor = 'url("../images/cursor-eraser.png"), url("../images/cursor-eraser.png"), default';
+        editor.DOMElement.querySelector(".text-editor-content").style.cursor = 'url("../images/cursor-eraser.png"), url("../images/cursor-eraser.png"), default';
         editor.DOMElement.querySelector(".line-numbers-wrapper").style.cursor = 'url("../images/cursor-eraser.png"), url("../images/cursor-eraser.png"), default';
         editor.DOMElement.querySelector(".text-editor-textarea").style.pointerEvents = "none";
     }
