@@ -83,6 +83,23 @@ export class TextEditorCanvas {
       this._attachToEventListeners();
    }
 
+   showBlotGhost(event) {
+      const rect = this.canvas.getBoundingClientRect();
+      const mousePosition = [ event.pageX - rect.left, event.pageY - rect.top ];
+
+      this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+      this.canvasContext.save();
+      this.canvasContext.strokeStyle = "#4c4c4e"; /** TODO: add color argument when such a property exists */
+      this.canvasContext.beginPath();
+      this.canvasContext.moveTo(mousePosition[0], mousePosition[1]);
+      this.canvasContext.lineTo(mousePosition[0], mousePosition[1]);
+      this.canvasContext.stroke();
+      this.canvasContext.restore();
+
+      this.drawSketchFigures(this.canvasContext);
+   }
+
    finishSketching() {
       this.sketchFigures.push(this._temporarySketchFigure);
       this._temporarySketchFigure = null;
@@ -92,19 +109,18 @@ export class TextEditorCanvas {
       const rect = this.canvas.getBoundingClientRect();
       const mousePosition = [ event.pageX - rect.left, event.pageY - rect.top ];
 
-      //this.drawSketchFigures();
       if (this._temporarySketchFigure === null) 
-         this._temporarySketchFigure = new SketchFigure();
+         this._temporarySketchFigure = new SketchFigure(); /** TODO: add color argument when such a property exists */
 
       this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      this.canvasContext.fillRect(mousePosition[0], mousePosition[1], 2, 2);
       this._temporarySketchFigure.sketchPoints.push(new SketchPoint(mousePosition[0], mousePosition[1]));
-      this.sketchFigures[0] = this._temporarySketchFigure;
-      this.canvasContext.fillRect(mousePosition[0], mousePosition[1], 1, 1);
       this.drawSketchFigures(this.canvasContext);
    }
 
    drawSketchFigures() {
+      if(this._temporarySketchFigure !== null)
+         this._temporarySketchFigure.draw(this.canvasContext);
+
       for (const sketchFigure of this.sketchFigures) 
          sketchFigure.draw(this.canvasContext);
    }

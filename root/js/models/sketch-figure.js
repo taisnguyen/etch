@@ -38,7 +38,7 @@ export class SketchFigure {
                 canvasContext.lineTo(this.sketchPoints[i].x, this.sketchPoints[i].y);
             }
             canvasContext.stroke();
-
+            canvasContext.restore();
             return;
         }
 

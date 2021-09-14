@@ -160,8 +160,12 @@ export class TextEditor {
     }
 
     _onMouseMove(event) {
-        if (this.currentAction === "pencil" && this._mouseDown)
-            this.textEditorCanvas.sketch(event);
+        if (this.currentAction === "pencil") {
+            this.textEditorCanvas.showBlotGhost(event);
+
+            if(this._mouseDown)
+                this.textEditorCanvas.sketch(event);
+        }
     }
 
     _onInput(event) {
