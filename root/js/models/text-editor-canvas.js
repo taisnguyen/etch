@@ -10,6 +10,7 @@
  */
 
 
+import { SketchPoint } from "./sketch-point.js";
 import { SketchFigure } from "./sketch-figure.js";
 
 
@@ -34,6 +35,11 @@ export class TextEditorCanvas {
       this._canvas = null;
       this._canvasContext = null;
       this._sketchFigures = [];
+
+      // not exposed 
+
+      this._temporarySketchFigure = null;
+
 
       this._initialize();
    }
@@ -77,13 +83,27 @@ export class TextEditorCanvas {
       this._attachToEventListeners();
    }
 
-   _finishSketchFigure() {
-
+   finishSketching() {
+      this.sketchFigures.push(this._temporarySketchFigure);
+      this._temporarySketchFigure = null;
    }
 
-
    sketch(event) {
+      const rect = this.canvas.getBoundingClientRect();
+      const mousePosition = [ event.pageX - rect.left, event.pageY - rect.top ];
 
+      //this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+      //this.drawSketchFigures();
+      if (this._temporarySketchFigure === null) 
+         this._temporarySketchFigure = new SketchFigure();
+
+      this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.canvasContext.fillRect(mousePosition[0], mousePosition[1], 2, 2);
+      this._temporarySketchFigure.sketchPoints.push(new SketchPoint(mousePosition[0], mousePosition[1]));
+      this.sketchFigures[0] = this._temporarySketchFigure;
+      this.canvasContext.fillRect(mousePosition[0], mousePosition[1], 1, 1);
+      this.drawSketchFigures(this.canvasContext);
    }
 
    drawSketchFigures() {

@@ -34,6 +34,10 @@ export class TextEditor {
         this._DOMElement = null;
         this._textEditorCanvas = null; 
 
+        this._mouseDown = false;
+        this.currentAction = "cursor"
+
+
         this._initialize();
     }
 
@@ -48,9 +52,10 @@ export class TextEditor {
 
         // text editor canvas
 
-        // this.DOMElement.addEventListener("mousemove", (e) => {
-        //     this.canvas._canvasContext.fillRect(e.clientX, e.clientY, 5, 5);
-        //  });
+        this.DOMElement.addEventListener("mousedown", this._onMouseDown.bind(this));
+        this.DOMElement.addEventListener("mouseup", this._onMouseUp.bind(this));
+        this.DOMElement.addEventListener("mousemove", this._onMouseMove.bind(this));
+
     }
 
     _initializeDOMElement() {
@@ -137,6 +142,21 @@ export class TextEditor {
 
         // move caret to end of inserted tab
         textEditorTextArea.selectionStart = textEditorTextArea.selectionEnd = selectionStart + tabSpaceAmount;
+    }
+
+    _onMouseDown() {
+        this._mouseDown = true;
+        if (this.currentAction === "pencil")
+            this.textEditorCanvas.finishSketching();
+    }
+
+    _onMouseUp() {
+        this._mouseDown = false;
+    }
+
+    _onMouseMove(event) {
+        if (this.currentAction === "pencil" && this._mouseDown)
+            this.textEditorCanvas.sketch(event);
     }
 
     _onInput(event) {
