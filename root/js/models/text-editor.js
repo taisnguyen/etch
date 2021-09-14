@@ -43,7 +43,7 @@ export class TextEditor {
 
     _attachToEventListeners() {
         const textEditorContent = this.DOMElement.querySelector(".text-editor-content");
-        const textEditorTextArea = textEditorContent.querySelector(".text-editor-textarea");
+        const textEditorTextArea = this.DOMElement.querySelector(".text-editor-textarea");
 
         // text editor
 
@@ -91,8 +91,8 @@ export class TextEditor {
 
     _updateLineNumber() {
         const textEditorContent = this.DOMElement.querySelector(".text-editor-content");
-        const textEditorTextArea = textEditorContent.querySelector(".text-editor-textarea");
-        const textEditorLineNumbersWrapper = textEditorContent.querySelector(".line-numbers-wrapper");
+        const textEditorTextArea = this.DOMElement.querySelector(".text-editor-textarea");
+        const textEditorLineNumbersWrapper = this.DOMElement.querySelector(".line-numbers-wrapper");
 
         /** TODO: change method since .match method is too slow at large values. */
 
@@ -126,7 +126,7 @@ export class TextEditor {
 
     _addTab() {
         const textEditorContent = this.DOMElement.querySelector(".text-editor-content");
-        const textEditorTextArea = textEditorContent.querySelector(".text-editor-textarea");
+        const textEditorTextArea = this.DOMElement.querySelector(".text-editor-textarea");
 
         const tabSpaceAmount = window.userPreferences["editor.tabSpaceAmount"];
         const selectionStart = textEditorTextArea.selectionStart;
@@ -144,14 +144,16 @@ export class TextEditor {
         textEditorTextArea.selectionStart = textEditorTextArea.selectionEnd = selectionStart + tabSpaceAmount;
     }
 
-    _onMouseDown() {
+    _onMouseDown(event) {
         this._mouseDown = true;
         if (this.currentAction === "pencil")
-            this.textEditorCanvas.finishSketching();
+            this.textEditorCanvas.sketch(event);
     }
 
     _onMouseUp() {
         this._mouseDown = false;
+        if (this.currentAction === "pencil")
+            this.textEditorCanvas.finishSketching();
     }
 
     _onMouseMove(event) {

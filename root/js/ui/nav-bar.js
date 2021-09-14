@@ -32,10 +32,13 @@ export function onSelectCursorAction() {
 
     document.querySelector(".nav-bar-item-cursor").style.borderLeft = "1px solid var(--editor-textarea-background-color)";
     document.querySelector(".nav-bar-item-cursor").style.backgroundImage = 'url("../images/nav-bar-item-cursor-highlighted.png")';
-    console.log("cursor");
-
-    for(const editor of window.globalVariables["editors"]) 
-        editor.currentAction = "cursor"
+    
+    for(const editor of window.globalVariables["editors"]) {
+        editor.currentAction = "cursor";
+        editor.DOMElement.querySelector(".text-editor-textarea").style.cursor = "text";
+        editor.DOMElement.querySelector(".line-numbers-wrapper").style.cursor = "default";
+        editor.DOMElement.querySelector(".text-editor-textarea").style.pointerEvents = "initial";
+    }
 }
 
 export function onSelectPencilAction() {
@@ -43,10 +46,13 @@ export function onSelectPencilAction() {
 
     document.querySelector(".nav-bar-item-pencil").style.borderLeft = "1px solid var(--editor-textarea-background-color)";
     document.querySelector(".nav-bar-item-pencil").style.backgroundImage = 'url("../images/nav-bar-item-pencil-highlighted.png")';
-    console.log("pencil");
 
-    for(const editor of window.globalVariables["editors"]) 
+    for(const editor of window.globalVariables["editors"]) {
         editor.currentAction = "pencil"
+        editor.DOMElement.querySelector(".text-editor-textarea").style.cursor = 'url("../images/cursor-pencil.png"), url("../images/cursor-pencil.png"), default';
+        editor.DOMElement.querySelector(".line-numbers-wrapper").style.cursor = 'url("../images/cursor-pencil.png"), url("../images/cursor-pencil.png"), default';
+        editor.DOMElement.querySelector(".text-editor-textarea").style.pointerEvents = "none";
+    }
 }
 
 export function onSelectEraserAction() {
@@ -54,8 +60,11 @@ export function onSelectEraserAction() {
 
     document.querySelector(".nav-bar-item-eraser").style.borderLeft = "1px solid var(--editor-textarea-background-color)";
     document.querySelector(".nav-bar-item-eraser").style.backgroundImage = 'url("../images/nav-bar-item-eraser-highlighted.png")';
-    console.log("eraser");
 
-    for(const editor of window.globalVariables["editors"]) 
+    for(const editor of window.globalVariables["editors"]) {
         editor.currentAction = "eraser"
+        editor.DOMElement.querySelector(".text-editor-textarea").style.cursor = 'url("../images/cursor-eraser.png"), url("../images/cursor-eraser.png"), default';
+        editor.DOMElement.querySelector(".line-numbers-wrapper").style.cursor = 'url("../images/cursor-eraser.png"), url("../images/cursor-eraser.png"), default';
+        editor.DOMElement.querySelector(".text-editor-textarea").style.pointerEvents = "none";
+    }
 }

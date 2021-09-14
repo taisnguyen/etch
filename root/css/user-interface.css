@@ -267,14 +267,6 @@ html, body {
     white-space: nowrap;
 }
 
-.text-editor-textarea:hover {
-    cursor: url("../images/cursor-pencil.png"), url("../images/cursor-pencil.png"), default;
-}
-
-.line-numbers-wrapper:hover {
-    cursor: url("../images/cursor-pencil.png"), url("../images/cursor-pencil.png"), default;
-}
-
 .text-editor-textarea::selection {
     background-color: var(--editor-textarea-text-background-color-highlight);
 }

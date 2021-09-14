@@ -92,8 +92,6 @@ export class TextEditorCanvas {
       const rect = this.canvas.getBoundingClientRect();
       const mousePosition = [ event.pageX - rect.left, event.pageY - rect.top ];
 
-      //this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
       //this.drawSketchFigures();
       if (this._temporarySketchFigure === null) 
          this._temporarySketchFigure = new SketchFigure();
