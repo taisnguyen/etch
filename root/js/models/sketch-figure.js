@@ -21,7 +21,7 @@ export class SketchFigure {
      * @param {Object[]} sketchPoints
      */     
 
-    constructor(sketchPoints = [], color = "#4c4c4e") {
+    constructor(sketchPoints = [], color = "#222222") {
         this.sketchPoints = sketchPoints;
         this.color = color;
     }

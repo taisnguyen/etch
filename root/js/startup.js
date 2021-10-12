@@ -36,11 +36,16 @@ document.documentElement.style.setProperty("--editor-textarea-text-font-size", w
 document.documentElement.style.setProperty("--editor-textarea-text-color", window.userPreferences["style.editorTextAreaTextColor"]);
 document.documentElement.style.setProperty("--editor-textarea-text-background-color-highlight", window.userPreferences["style.editorTextAreaTextBackgroundColorHighlight"]);
 document.documentElement.style.setProperty("--editor-line-numbers-text-color", window.userPreferences["style.editorLineNumbersTextColor"]);
+
 document.documentElement.style.setProperty("--nav-bar-background-color", window.userPreferences["style.navBarBackgroundColor"]);
+document.documentElement.style.setProperty("--nav-bar-item-background-color-hover", window.userPreferences["style.navBarItemBackgroundColorHover"]);
+document.documentElement.style.setProperty("--nav-bar-item-background-color-selected", window.userPreferences["style.navBarItemBackgroundColorSelected"]);
+
 document.documentElement.style.setProperty("--title-bar-background-color", window.userPreferences["style.titleBarBackgroundColor"]);
 document.documentElement.style.setProperty("--title-bar-button-text-font-family", window.userPreferences["style.titleBarButtonTextFontFamily"]);
 document.documentElement.style.setProperty("--title-bar-button-text-color", window.userPreferences["style.titleBarButtonTextColor"]);
 document.documentElement.style.setProperty("--title-bar-button-background-color-hover", window.userPreferences["style.titleBarButtonBackgroundColorHover"]);
+
 document.documentElement.style.setProperty("--scroll-bar-thumb-background-color", window.userPreferences["style.scrollBarThumbBackgroundColor"]);
 document.documentElement.style.setProperty("--scroll-bar-thumb-background-color-hover", window.userPreferences["style.scrollBarThumbBackgroundColorHover"]);
 

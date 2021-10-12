@@ -13,26 +13,40 @@
 
 
 function clearState() {
-    // remove styles
+    // remove styles and
 
-    document.querySelector(".nav-bar-item-cursor").style.borderLeft = "none";
+    document.querySelector(".nav-bar-item-cursor").style.backgroundColor = "var(--nav-bar-background-color)";
     document.querySelector(".nav-bar-item-cursor").style.backgroundImage = 'url("../images/nav-bar-item-cursor.png")';
+    document.querySelector(".nav-bar-item-cursor").style.pointerEvents = "auto";
+    document.querySelector(".nav-bar-item-cursor").onmouseover = (event) => { event.target.style.backgroundColor = "var(--nav-bar-item-background-color-hover)"; };
+    document.querySelector(".nav-bar-item-cursor").onmouseout = (event) => { event.target.style.backgroundColor = "var(--nav-bar-background-color)"; };
 
-    document.querySelector(".nav-bar-item-pencil").style.borderLeft = "none";
+    document.querySelector(".nav-bar-item-pencil").style.backgroundColor = "var(--nav-bar-background-color)";
     document.querySelector(".nav-bar-item-pencil").style.backgroundImage = 'url("../images/nav-bar-item-pencil.png")';
+    document.querySelector(".nav-bar-item-pencil").style.pointerEvents = "auto";
+    document.querySelector(".nav-bar-item-pencil").onmouseover = (event) => { event.target.style.backgroundColor = "var(--nav-bar-item-background-color-hover)"; };
+    document.querySelector(".nav-bar-item-pencil").onmouseout = (event) => { event.target.style.backgroundColor = "var(--nav-bar-background-color)"; };
 
-    document.querySelector(".nav-bar-item-eraser").style.borderLeft = "none";
+    document.querySelector(".nav-bar-item-eraser").style.backgroundColor = "var(--nav-bar-background-color)";
     document.querySelector(".nav-bar-item-eraser").style.backgroundImage = 'url("../images/nav-bar-item-eraser.png")';
-
-    // remove event listeners
+    document.querySelector(".nav-bar-item-eraser").style.pointerEvents = "auto";
+    document.querySelector(".nav-bar-item-eraser").onmouseover = (event) => { event.target.style.backgroundColor = "var(--nav-bar-item-background-color-hover)"; };
+    document.querySelector(".nav-bar-item-eraser").onmouseout = (event) => { event.target.style.backgroundColor = "var(--nav-bar-background-color)"; };
 }
 
 export function onSelectCursorAction() {
     clearState();
 
-    document.querySelector(".nav-bar-item-cursor").style.borderLeft = "1px solid var(--editor-textarea-background-color)";
+    console.log('a');
+
+    document.querySelector(".nav-bar-item-cursor").style.backgroundColor = "var(--nav-bar-item-background-color-selected)";
     document.querySelector(".nav-bar-item-cursor").style.backgroundImage = 'url("../images/nav-bar-item-cursor-highlighted.png")';
-    
+    document.querySelector(".nav-bar-item-cursor").style.pointerEvents = "none";
+    document.querySelector(".nav-bar-item-cursor").onmouseover = (event) => {};
+    document.querySelector(".nav-bar-item-cursor").onmouseout = (event) => {};
+
+
+
     for(const editor of window.globalVariables["editors"]) {
         editor.currentAction = "cursor";
         editor.DOMElement.querySelector(".text-editor-content").style.cursor = "text";
@@ -43,9 +57,14 @@ export function onSelectCursorAction() {
 
 export function onSelectPencilAction() {
     clearState();
+    console.log('a');
 
-    document.querySelector(".nav-bar-item-pencil").style.borderLeft = "1px solid var(--editor-textarea-background-color)";
+    document.querySelector(".nav-bar-item-pencil").style.backgroundColor = "var(--nav-bar-item-background-color-selected)";
     document.querySelector(".nav-bar-item-pencil").style.backgroundImage = 'url("../images/nav-bar-item-pencil-highlighted.png")';
+    document.querySelector(".nav-bar-item-pencil").style.pointerEvents = "none";
+    document.querySelector(".nav-bar-item-pencil").onmouseover = (event) => {};
+    document.querySelector(".nav-bar-item-pencil").onmouseout = (event) => {};
+
 
     for(const editor of window.globalVariables["editors"]) {
         editor.currentAction = "pencil"
@@ -57,9 +76,14 @@ export function onSelectPencilAction() {
 
 export function onSelectEraserAction() {
     clearState();
+    console.log('a');
 
-    document.querySelector(".nav-bar-item-eraser").style.borderLeft = "1px solid var(--editor-textarea-background-color)";
+    document.querySelector(".nav-bar-item-eraser").style.backgroundColor = "var(--nav-bar-item-background-color-selected)";
     document.querySelector(".nav-bar-item-eraser").style.backgroundImage = 'url("../images/nav-bar-item-eraser-highlighted.png")';
+    document.querySelector(".nav-bar-item-eraser").style.pointerEvents = "none";
+    document.querySelector(".nav-bar-item-eraser").onmouseover = (event) => {};
+    document.querySelector(".nav-bar-item-eraser").onmouseout = (event) => {};
+    
 
     for(const editor of window.globalVariables["editors"]) {
         editor.currentAction = "eraser"

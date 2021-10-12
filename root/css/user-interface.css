@@ -2,45 +2,30 @@
     font-size: 14px;
 }
 
-/**
- * global css variables controlled by javascript
- * =============================================
- * :root
- * --editor-textarea-background-color
- * --editor-textarea-text-font-family
- * --editor-textarea-text-font-size
- * --editor-textarea-text-color
- * --editor-textarea-text-background-color-highlight
- * --editor-line-numbers-text-color
- *
- * --nav-bar-background-color
- *
- * --title-bar-background-color
- * --title-bar-button-text-font-family
- * --title-bar-button-text-color
- * --title-bar-button-background-color-hover
- *
- * --scroll-bar-thumb-background-color
- * --scroll-bar-thumb-background-color-hover
- */
 
 html, body {
     height: 100%;
-    
     margin: 0;
     overflow: hidden;
-    background-color: var(--editor-textarea-background-color);
+    background-color: var(--nav-bar-background-color);
+}
+
+.wrapper {
+    height: 100%;
+    width: 100%;
+
+    background-color: var(--nav-bar-background-color);
 }
 
 .user-interface-wrapper {
     position: fixed;
-    top: 30px;
+    top: 38px;
 
     display: flex;
-    flex-flow: row wrap;
 
-    width: 100%;
-    height: calc(100% - 30px);
+    width: calc(100% - 1px);
+    height: calc(100% - 38px);
+    border-right: 1px solid var(--nav-bar-background-color);
 }
 
 /** scrollbar styles */
@@ -107,7 +92,7 @@ html, body {
     display: flex;
 
     width: 100%;
-    height: 30px;
+    height: 38px;
 
     background-color: var(--title-bar-background-color);
 }
@@ -120,7 +105,7 @@ html, body {
     top: 5px;
 
     width: calc(100% - 5px);
-    height: 25px;
+    height: 38px;
 }
 
 .title-bar-button {
@@ -139,7 +124,7 @@ html, body {
     user-select: none;
 
     position: relative;
-    top: 5px;
+    top: 9px;
 
     font-family: var(--title-bar-button-text-font-family);
     color: var(--title-bar-button-text-color);
@@ -149,6 +134,7 @@ html, body {
 
 .menu-bar {
     display: flex;
+
     flex-shrink: 1;
 }
 
@@ -156,8 +142,6 @@ html, body {
 
 .nav-bar {
     z-index: 1;
-
-    order: 2;
 
     display: flex;
     flex-flow: column;
@@ -171,14 +155,6 @@ html, body {
 .nav-bar-item {
     height: 50px;
     min-height: 25px;
-    border-bottom: 2px solid var(--editor-textarea-background-color);
-    margin-bottom: -2px;
-}
-
-.nav-bar-item:hover {
-    cursor: pointer;
-
-    border-left: 1px solid var(--editor-textarea-background-color);
 }
 
 .nav-bar-item-cursor {
@@ -189,6 +165,7 @@ html, body {
 
 .nav-bar-item-cursor:hover {
     background-image: url("../images/nav-bar-item-cursor-highlighted.png");
+    background-color: black;
 }
 
 .nav-bar-item-pencil {
@@ -217,8 +194,7 @@ html, body {
     flex: 1;
 
     width: 100%;
-    height: 100%;
-
+    height: calc(100% - 1px);
 }
 
 .text-editor-content {
@@ -234,12 +210,15 @@ html, body {
 .line-numbers-wrapper {
     display: flex;
     flex-flow: column wrap;
-
-    margin-top: 2px;
+    
+    background-color: var(--editor-textarea-background-color);
 }
 
 .line-numbers-wrapper span {
     user-select: none;
+
+    position: relative;
+    top: 2px;
 
     width: 1.7em;
     text-align: center;

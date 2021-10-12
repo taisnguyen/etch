@@ -66,7 +66,6 @@ export class TextEditorCanvas {
       // initialize DOMElement and replace TextEditorCanvas shell div
       this._initializeDOMElement();
       this.data["textEditorCanvasDOMElement"].replaceWith(this.DOMElement);
-      //this.data["textEditorCanvasDOMElement"] = this.DOMElement;
 
       // assign canvas and canvas context
       this._canvas = this.DOMElement.querySelector("canvas");
