@@ -11,9 +11,9 @@
 
 
 import { onSelectCursorAction, onSelectPencilAction, onSelectEraserAction } from "./ui/nav-bar.js";
-import { TextEditor } from "./models/text-editor.js";
-import { SketchFigure } from "./models/sketch-figure.js";
-import { SketchPoint } from "./models/sketch-point.js";
+import { TextEditor } from "./entities/text-editor.js";
+import { SketchFigure } from "./entities/sketch-figure.js";
+import { SketchPoint } from "./entities/sketch-point.js";
 
 
 
