@@ -244,6 +244,8 @@ html, body {
     color: var(--editor-textarea-text-color);   
     
     white-space: nowrap;
+
+    cursor: default;
 }
 
 .text-editor-textarea::selection {

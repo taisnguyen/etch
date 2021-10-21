@@ -160,6 +160,8 @@ export class TextEditor {
     }
 
     _onMouseMove(event) {
+
+        // handles text editor canvas actions 
         if (this.currentAction === "pencil") {
             this.textEditorCanvas.showBlotGhost(event);
 
@@ -181,8 +183,10 @@ export class TextEditor {
         }
     }
 
-
-
+    /** ==================================== */
+    /** exposed methods */
+    
+    
 
     get data() {
         return this._data;

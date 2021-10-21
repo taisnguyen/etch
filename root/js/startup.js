@@ -58,5 +58,49 @@ document.querySelector(".nav-bar-item-cursor").addEventListener("click", onSelec
 document.querySelector(".nav-bar-item-pencil").addEventListener("click", onSelectPencilAction);
 document.querySelector(".nav-bar-item-eraser").addEventListener("click", onSelectEraserAction);
 
+
+// keyboard shortcuts
+
+(() => {
+    const keysPressed = [];
+
+    document.addEventListener("keyup", (event) => {
+        keysPressed.splice(keysPressed.indexOf(event.key.toLowerCase()));
+        console.log("removed: " + keysPressed);
+    }); 
+
+    document.addEventListener("keydown", (event) => {
+        if (!keysPressed.includes(event.key.toLowerCase()))
+            keysPressed.push(event.key.toLowerCase());
+
+        console.log("pressed: " + keysPressed);
+
+        // shortcut declarations
+
+        // Cursor Tool : CTRL+1
+        if (keysPressed[0] === "control" && keysPressed[1] === "1") {
+            onSelectCursorAction();
+            return;   
+        }
+
+        // Pencil Tool : CTRL+2
+        if (keysPressed[0] === "control" && keysPressed[1] === "2") {
+            onSelectPencilAction();
+            return;   
+        }
+
+        // Eraser Tool : CTRL+3
+        if (keysPressed[0] === "control" && keysPressed[1] === "3") {
+            onSelectEraserAction();
+            return;
+        }
+
+        if (keysPressed.length >= 2)
+            keysPressed[1] = "bruh";
+
+    });    
+})();
+
+
 // main TextEditor instance
 window.globalVariables["editors"].push(new TextEditor({ "textEditorDOMElement": document.querySelector("#text-editor") }));

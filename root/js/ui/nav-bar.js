@@ -12,8 +12,16 @@
 
 
 
+// state variables
+
+var selectedAction = "";
+
+
 function clearState() {
-    // remove styles and
+
+    selectedAction = "";
+
+    // remove styles
 
     document.querySelector(".nav-bar-item-cursor").style.backgroundColor = "var(--nav-bar-background-color)";
     document.querySelector(".nav-bar-item-cursor").style.backgroundImage = 'url("../images/nav-bar-item-cursor.png")';
@@ -26,6 +34,8 @@ function clearState() {
     document.querySelector(".nav-bar-item-pencil").style.pointerEvents = "auto";
     document.querySelector(".nav-bar-item-pencil").onmouseover = (event) => { event.target.style.backgroundColor = "var(--nav-bar-item-background-color-hover)"; };
     document.querySelector(".nav-bar-item-pencil").onmouseout = (event) => { event.target.style.backgroundColor = "var(--nav-bar-background-color)"; };
+    for(const editor of window.globalVariables["editors"]) 
+        editor.textEditorCanvas.hideBlotGhost();
 
     document.querySelector(".nav-bar-item-eraser").style.backgroundColor = "var(--nav-bar-background-color)";
     document.querySelector(".nav-bar-item-eraser").style.backgroundImage = 'url("../images/nav-bar-item-eraser.png")';
@@ -35,16 +45,17 @@ function clearState() {
 }
 
 export function onSelectCursorAction() {
+    if (selectedAction === "cursor") return;
+
     clearState();
 
-    console.log('a');
+    selectedAction = "cursor";
 
     document.querySelector(".nav-bar-item-cursor").style.backgroundColor = "var(--nav-bar-item-background-color-selected)";
     document.querySelector(".nav-bar-item-cursor").style.backgroundImage = 'url("../images/nav-bar-item-cursor-highlighted.png")';
     document.querySelector(".nav-bar-item-cursor").style.pointerEvents = "none";
     document.querySelector(".nav-bar-item-cursor").onmouseover = (event) => {};
     document.querySelector(".nav-bar-item-cursor").onmouseout = (event) => {};
-
 
 
     for(const editor of window.globalVariables["editors"]) {
@@ -56,8 +67,11 @@ export function onSelectCursorAction() {
 }
 
 export function onSelectPencilAction() {
+    if (selectedAction === "pencil") return;
+
     clearState();
-    console.log('a');
+
+    selectedAction = "pencil";
 
     document.querySelector(".nav-bar-item-pencil").style.backgroundColor = "var(--nav-bar-item-background-color-selected)";
     document.querySelector(".nav-bar-item-pencil").style.backgroundImage = 'url("../images/nav-bar-item-pencil-highlighted.png")';
@@ -75,8 +89,11 @@ export function onSelectPencilAction() {
 }
 
 export function onSelectEraserAction() {
+    if (selectedAction === "eraser") return;
+
     clearState();
-    console.log('a');
+
+    selectedAction = "eraser";
 
     document.querySelector(".nav-bar-item-eraser").style.backgroundColor = "var(--nav-bar-item-background-color-selected)";
     document.querySelector(".nav-bar-item-eraser").style.backgroundImage = 'url("../images/nav-bar-item-eraser-highlighted.png")';

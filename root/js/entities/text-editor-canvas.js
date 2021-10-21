@@ -91,11 +91,15 @@ export class TextEditorCanvas {
       this.canvasContext.save();
       this.canvasContext.strokeStyle = "#4c4c4e"; /** TODO: add color argument when such a property exists */
       this.canvasContext.beginPath();
-      this.canvasContext.moveTo(mousePosition[0], mousePosition[1]);
       this.canvasContext.lineTo(mousePosition[0], mousePosition[1]);
       this.canvasContext.stroke();
       this.canvasContext.restore();
 
+      this.drawSketchFigures(this.canvasContext);
+   }
+
+   hideBlotGhost() {
+      this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.drawSketchFigures(this.canvasContext);
    }
 
