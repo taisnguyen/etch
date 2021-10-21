@@ -10,6 +10,9 @@
  */
 
 
+import { SketchFigureBoundingBox } from "./sketch-figure-bounding-box.js";
+
+
 
 
 /** 
@@ -19,13 +22,26 @@ export class SketchFigure {
 
     /**
      * @param {Object[]} sketchPoints
-     */     
-
+     * @param {string} color
+     */    
     constructor(sketchPoints = [], color = "#222222") {
         this.sketchPoints = sketchPoints;
+        this.boundingBox = null;
+        this.selected = false;
         this.color = color;
+
+        this._initialize();
     }
 
+    _initializeBoundingBox() {
+        const minimumBoundingRectangle = SketchFigureBoundingBox.getMinimumBoundingRectangle(this.sketchPoints);
+        this.boundingBox = new SketchFigureBoundingBox(minimumBoundingRectangle.minX, minimumBoundingRectangle.maxX, minimumBoundingRectangle.minY, minimumBoundingRectangle.maxY);
+    }
+
+    _initialize() {
+        this._initializeBoundingBox();
+    }
+ 
     draw(canvasContext) {
         canvasContext.save();
         canvasContext.strokeStyle = this.color;

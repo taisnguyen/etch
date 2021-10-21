@@ -28,7 +28,6 @@ export class TextEditor {
      *    text                 : text data in the TextEditor
      * } 
      */
-
     constructor(data) {
         this._data = data || {};
         this._DOMElement = null;
@@ -146,16 +145,26 @@ export class TextEditor {
         if (!this._mouseDown) {
             this._mouseDown = true;
             this._mouseDownButton = event["button"];
+
+            // cursor action logic
+            if (this.currentAction === "cursor") {
+
+            }
+
+            // pencil action logic
             if (this.currentAction === "pencil")
                 this.textEditorCanvas.sketch(event);
+
         }
     }
 
     _onMouseUp(event) {
         if (this._mouseDownButton === event["button"]) {
             this._mouseDown = false;
+
             if (this.currentAction === "pencil")
                 this.textEditorCanvas.finishSketching();
+
         }
     }
 
