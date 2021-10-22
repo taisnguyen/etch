@@ -30,7 +30,7 @@
      * @returns {number[]} minimum bounding rectangle coordinates with shape { minX: number, maxX: number, minY: number, maxY: number };
      */
     static getMinimumBoundingRectangle(sketchPoints) {
-        if (sketchPoints.length == 0) return;
+        if (sketchPoints.length === 0) return;
 
         let minX = sketchPoints[0].x; 
         let maxX = sketchPoints[0].x; 
@@ -51,4 +51,16 @@
             maxY: maxY 
         };
     }
+
+    draw(canvasContext) {
+        canvasContext.save();
+        canvasContext.strokeStyle = "green";
+    
+        
+
+
+        canvasContext.restore();
+    }
+
+
 }
