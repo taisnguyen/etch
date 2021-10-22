@@ -1,3 +1,4 @@
 progress
 ignore
 root/package-lock.json
+root/node_modules
