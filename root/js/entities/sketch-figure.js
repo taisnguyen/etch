@@ -25,18 +25,27 @@ export class SketchFigure {
      * @param {string} color
      */    
     constructor(sketchPoints = [], color = "#222222") {
-        this.sketchPoints = sketchPoints;
-        this.boundingBox = null;
+        this._boundingBox = null;
+        this._sketchPoints = sketchPoints;
+
+        this.x = null;
+        this.y = null;
         this.selected = false;
         this.color = color;
+        
 
         this._initialize();
     }
 
     _initializeBoundingBox() {
         const minimumBoundingRectangle = SketchFigureBoundingBox.getMinimumBoundingRectangle(this.sketchPoints);
-        if (minimumBoundingRectangle)
-            this.boundingBox = new SketchFigureBoundingBox(minimumBoundingRectangle.minX, minimumBoundingRectangle.maxX, minimumBoundingRectangle.minY, minimumBoundingRectangle.maxY);
+        if (minimumBoundingRectangle) {
+            this._boundingBox = new SketchFigureBoundingBox(minimumBoundingRectangle.minX, minimumBoundingRectangle.maxX, minimumBoundingRectangle.minY, minimumBoundingRectangle.maxY);
+            
+            // get midpoint of minimumBoundingRectangle
+            this.x = (minimumBoundingRectangle.minX + minimumBoundingRectangle.maxX) / 2 ;
+            this.y = (minimumBoundingRectangle.minY + minimumBoundingRectangle.maxY) / 2 ;
+        }
     }
 
     _initialize() {
@@ -47,12 +56,12 @@ export class SketchFigure {
         canvasContext.save();
         canvasContext.strokeStyle = this.color;
         canvasContext.beginPath();
-        canvasContext.moveTo(this.sketchPoints[0].x, this.sketchPoints[0].y);
+        canvasContext.moveTo(this._sketchPoints[0].x, this._sketchPoints[0].y);
         
         // not enough points to compute bezier curve, draw a normal line for each SketchPoint
-        if (this.sketchPoints.length < 6) {
-            for (let i = 0; i < this.sketchPoints.length; i++) {
-                canvasContext.lineTo(this.sketchPoints[i].x, this.sketchPoints[i].y);
+        if (this._sketchPoints.length < 6) {
+            for (let i = 0; i < this._sketchPoints.length; i++) {
+                canvasContext.lineTo(this._sketchPoints[i].x, this._sketchPoints[i].y);
             }
             canvasContext.stroke();
             canvasContext.restore();
@@ -60,14 +69,22 @@ export class SketchFigure {
         }
 
         // using bezier curves, connect the points in the SketchFigure
-        for (let i = 1; i < this.sketchPoints.length - 2; i++) {
-            const averageX = (this.sketchPoints[i].x + this.sketchPoints[i + 1].x) / 2;
-            const averageY = (this.sketchPoints[i].y + this.sketchPoints[i + 1].y) / 2;
-            canvasContext.quadraticCurveTo(this.sketchPoints[i].x, this.sketchPoints[i].y, averageX, averageY);
+        for (let i = 1; i < this._sketchPoints.length - 2; i++) {
+            const averageX = (this._sketchPoints[i].x + this._sketchPoints[i + 1].x) / 2;
+            const averageY = (this._sketchPoints[i].y + this._sketchPoints[i + 1].y) / 2;
+            canvasContext.quadraticCurveTo(this._sketchPoints[i].x, this._sketchPoints[i].y, averageX, averageY);
         }
         canvasContext.stroke();
         canvasContext.restore();
     }
 
+
+    get boundingBox() {
+        return this._boundingBox;
+    }
+
+    get sketchPoints() {
+        return this._sketchPoints;
+    }
 
 }
