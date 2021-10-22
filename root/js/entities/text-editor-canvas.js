@@ -82,6 +82,11 @@ export class TextEditorCanvas {
       this._attachToEventListeners();
    }
 
+   hideBlotGhost() {
+      this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.drawSketchFigures(this.canvasContext);
+   }
+
    showBlotGhost(event) {
       const rect = this.canvas.getBoundingClientRect();
       const mousePosition = [ event.pageX - rect.left, event.pageY - rect.top ];
@@ -98,13 +103,8 @@ export class TextEditorCanvas {
       this.drawSketchFigures(this.canvasContext);
    }
 
-   hideBlotGhost() {
-      this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      this.drawSketchFigures(this.canvasContext);
-   }
-
    finishSketching() {
-      this.sketchFigures.push(this._temporarySketchFigure);
+      this.sketchFigures.push(new SketchFigure(this._temporarySketchFigure.sketchPoints)); /** TODO: add color argument when such a property exists */
       this._temporarySketchFigure = null;
    }
 
@@ -128,6 +128,10 @@ export class TextEditorCanvas {
          sketchFigure.draw(this.canvasContext);
    }
 
+   _draw() {
+
+   }
+
    /** ==================================== */
    /** methods to attach to event listeners */
 
@@ -146,8 +150,6 @@ export class TextEditorCanvas {
       // on resize, adjust the canvas's width and height
       this._adjustDimensions();
    }
-
-
 
 
    get data() {
