@@ -170,7 +170,27 @@ export class TextEditor {
 
     _onMouseMove(event) {
 
-        // handles text editor canvas actions 
+        // cursor action logic
+        if (this.currentAction === "cursor") {
+            const rect = this.textEditorCanvas.canvas.getBoundingClientRect();
+            const mousePosition = [ event.pageX - rect.left, event.pageY - rect.top ];
+
+            // iterate through SketchFigure objects and check for mouse hover
+            for (const sketchFigure of this.textEditorCanvas.sketchFigures) {
+                if (mousePosition[0] >= sketchFigure.boundingBox.minX && 
+                    mousePosition[0] <= sketchFigure.boundingBox.maxX &&
+                    mousePosition[1] >= sketchFigure.boundingBox.minY &&
+                    mousePosition[1] <= sketchFigure.boundingBox.maxY) {
+                        
+                        console.log('inside');
+
+                    } 
+            }
+
+
+        }
+
+        // pencil action logic 
         if (this.currentAction === "pencil") {
             this.textEditorCanvas.showBlotGhost(event);
 
@@ -192,11 +212,7 @@ export class TextEditor {
         }
     }
 
-    /** ==================================== */
-    /** exposed methods */
     
-    
-
     get data() {
         return this._data;
     }
@@ -212,5 +228,6 @@ export class TextEditor {
     get textEditorCanvas() {
         return this._textEditorCanvas;
     }
+
 
 }
