@@ -1,7 +1,6 @@
 const { contextBridge, ipcRenderer } = require("electron");
 const fs = require("fs");
 
-console.log("preload");
 
 // user preferences config file
 contextBridge.exposeInMainWorld("userPreferencesAPI", {
