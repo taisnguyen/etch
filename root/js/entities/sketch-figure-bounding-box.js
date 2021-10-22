@@ -27,7 +27,7 @@
 
     /**
      * @param {Object[]} sketchPoints
-     * @returns {number[]} minimum bounding rectangle coordinates
+     * @returns {number[]} minimum bounding rectangle coordinates with shape { minX: number, maxX: number, minY: number, maxY: number };
      */
     static getMinimumBoundingRectangle(sketchPoints) {
         if (sketchPoints.length == 0) return;
