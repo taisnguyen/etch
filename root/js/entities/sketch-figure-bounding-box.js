@@ -30,6 +30,8 @@
      * @returns {number[]} minimum bounding rectangle coordinates
      */
     static getMinimumBoundingRectangle(sketchPoints) {
+        if (sketchPoints.length == 0) return;
+
         let minX = sketchPoints[0].x; 
         let maxX = sketchPoints[0].x; 
         let minY = sketchPoints[0].y; 
