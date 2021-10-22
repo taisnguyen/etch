@@ -9,6 +9,6 @@
   "author": "Tai Sanh Nguyen",
   "license": "MIT",
   "dependencies": {
-    "electron": "^13.2.2"
+    "electron": "^13.6.0"
   }
 }
