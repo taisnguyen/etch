@@ -37,7 +37,7 @@ class TextEditorCanvasDrawingService extends Service {
 export class TextEditorCanvasDrawingServiceFactory {
 
     static getService(canvasContext) {
-        // search if appropriate service instance already exists
+        // search if appropriate service instance already exists in the global service directory
         let service = window.globalVariables["services"].find((service) => {
             if (service.type !== "TextEditorCanvasDrawingService") return false;
             if (service.canvasContext === canvasContext) return true;
