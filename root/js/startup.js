@@ -7,6 +7,8 @@
  *    [H] 
  *
  * startup script that gets called first when user-interface.html loads up
+ * 
+ * initializes global variables (objects attached to the global window variable)
  */
 
 
@@ -22,6 +24,7 @@ import { SketchPoint } from "./entities/sketch-point.js";
 window.globalVariables = {
     textEditorCount: 0,
     userCurrentAction: "cursor",
+    services: [],
     editors: []
 };
 
