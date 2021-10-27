@@ -176,6 +176,9 @@ export class TextEditor {
             const rect = this.textEditorCanvas.canvas.getBoundingClientRect();
             const mousePosition = [ event.pageX - rect.left, event.pageY - rect.top ];
 
+            // clear presentation canvas
+            TextEditorCanvasDrawingServiceFactory.getService(this.textEditorCanvas).drawNoSaveToState(() => {});
+
             // iterate through SketchFigure objects and check for mouse hover
             for (const sketchFigure of this.textEditorCanvas.sketchFigures) {
                 if (mousePosition[0] >= sketchFigure.boundingBox.minX && 
@@ -184,11 +187,9 @@ export class TextEditor {
                     mousePosition[1] <= sketchFigure.boundingBox.maxY) {
                         console.log("inside");
                         sketchFigure.boundingBox.draw(this.textEditorCanvas);
-                } else {
-                    // clear presentation canvas
-                    TextEditorCanvasDrawingServiceFactory.getService(this.textEditorCanvas).drawNoSaveToState(() => {});
                 }
             }
+
             
         }
 
