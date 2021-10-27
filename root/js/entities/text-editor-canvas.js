@@ -12,6 +12,7 @@
 
 import { SketchPoint } from "./sketch-point.js";
 import { SketchFigure } from "./sketch-figure.js";
+import { TextEditorCanvasDrawingServiceFactory } from "../services/text-editor-canvas-drawing-service-factory.js";
 
 
 
@@ -35,11 +36,7 @@ export class TextEditorCanvas {
       this._canvas = null;
       this._canvasContext = null;
       this._sketchFigures = [];
-
-      // not exposed 
-
-      this._temporarySketchFigure = null;
-
+      this._inProgressSketchFigure = null;
 
       this._initialize();
    }
@@ -83,53 +80,53 @@ export class TextEditorCanvas {
    }
 
    hideBlotGhost() {
-      this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      this.drawSketchFigures(this.canvasContext);
+      const drawingService = TextEditorCanvasDrawingServiceFactory.getService(this);
+      drawingService.drawNoSaveToState(() => {});
    }
 
    showBlotGhost(event) {
+      const drawingService = TextEditorCanvasDrawingServiceFactory.getService(this);
       const rect = this.canvas.getBoundingClientRect();
       const mousePosition = [ event.pageX - rect.left, event.pageY - rect.top ];
 
-      this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-      this.canvasContext.save();
-      this.canvasContext.strokeStyle = "#4c4c4e"; /** TODO: add color argument when such a property exists */
-      this.canvasContext.beginPath();
-      this.canvasContext.lineTo(mousePosition[0], mousePosition[1]);
-      this.canvasContext.stroke();
-      this.canvasContext.restore();
-
-      this.drawSketchFigures(this.canvasContext);
+      drawingService.drawNoSaveToState((canvasContext) => {
+         this.canvasContext.save();
+         this.canvasContext.strokeStyle = "#4c4c4e"; /** TODO: add color argument when such a property exists */
+         this.canvasContext.beginPath();
+         this.canvasContext.lineTo(mousePosition[0], mousePosition[1]);
+         this.canvasContext.stroke();
+         this.canvasContext.restore();
+      });      
    }
 
    finishSketching() {
-      this.sketchFigures.push(new SketchFigure(this._temporarySketchFigure.sketchPoints)); /** TODO: add color argument when such a property exists */
-      this._temporarySketchFigure = null;
+      // draw in-progress SketchFigure and save it to state
+      this._inProgressSketchFigure.draw(this, true);
+
+      this.sketchFigures.push(new SketchFigure(this._inProgressSketchFigure.sketchPoints)); /** TODO: add color argument when such a property exists */
+      this._inProgressSketchFigure = null;
+   }
+
+   drawInProgressSketchFigure() {
+      if(this._inProgressSketchFigure !== null) 
+         this._inProgressSketchFigure.draw(this, false);
+   }
+
+   drawAllSketchFigures() {
+      for (const sketchFigure of this.sketchFigures) {
+         sketchFigure.draw(this, true);
+      }
    }
 
    sketch(event) {
       const rect = this.canvas.getBoundingClientRect();
       const mousePosition = [ event.pageX - rect.left, event.pageY - rect.top ];
 
-      if (this._temporarySketchFigure === null) 
-         this._temporarySketchFigure = new SketchFigure(); /** TODO: add color argument when such a property exists */
+      if (this._inProgressSketchFigure === null) 
+         this._inProgressSketchFigure = new SketchFigure(); /** TODO: add color argument when such a property exists */
 
-      this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      this._temporarySketchFigure.sketchPoints.push(new SketchPoint(mousePosition[0], mousePosition[1]));
-      this.drawSketchFigures(this.canvasContext);
-   }
-
-   drawSketchFigures() {
-      if(this._temporarySketchFigure !== null)
-         this._temporarySketchFigure.draw(this.canvasContext);
-
-      for (const sketchFigure of this.sketchFigures) 
-         sketchFigure.draw(this.canvasContext);
-   }
-
-   _draw() {
-
+      this._inProgressSketchFigure.sketchPoints.push(new SketchPoint(mousePosition[0], mousePosition[1]));
+      this.drawInProgressSketchFigure();
    }
 
    /** ==================================== */
@@ -141,16 +138,18 @@ export class TextEditorCanvas {
       this.canvas.width = window.innerWidth;
       this.canvas.height = window.innerHeight;
       this._setCanvasContextSettings();
-
-      this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      this.drawSketchFigures();
    }
-
+   
    _onResize() {
-      // on resize, adjust the canvas's width and height
+      // 1. resize the TextEditorCanvas canvas
       this._adjustDimensions();
-   }
 
+      // 2. resize the associated TextEditorCanvasDrawingService state canvas
+      TextEditorCanvasDrawingServiceFactory.getService(this).adjustDimensions();
+
+      // 3. since 2. will clear the service's state canvas, redraw back all the objects onto the screen, utilizing the service's drawSaveToState() method
+      this.drawAllSketchFigures();
+   }
 
    get data() {
       return this._data;
