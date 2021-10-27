@@ -107,12 +107,12 @@ export class TextEditorCanvas {
       this._inProgressSketchFigure = null;
    }
 
-   drawInProgressSketchFigure() {
+   _drawInProgressSketchFigure() {
       if(this._inProgressSketchFigure !== null) 
          this._inProgressSketchFigure.draw(this, false);
    }
 
-   drawAllSketchFigures() {
+   _drawAllSketchFigures() {
       for (const sketchFigure of this.sketchFigures) {
          sketchFigure.draw(this, true);
       }
@@ -126,7 +126,7 @@ export class TextEditorCanvas {
          this._inProgressSketchFigure = new SketchFigure(); /** TODO: add color argument when such a property exists */
 
       this._inProgressSketchFigure.sketchPoints.push(new SketchPoint(mousePosition[0], mousePosition[1]));
-      this.drawInProgressSketchFigure();
+      this._drawInProgressSketchFigure();
    }
 
    /** ==================================== */
@@ -148,7 +148,7 @@ export class TextEditorCanvas {
       TextEditorCanvasDrawingServiceFactory.getService(this).adjustDimensions();
 
       // 3. since 2. will clear the service's state canvas, redraw back all the objects onto the screen, utilizing the service's drawSaveToState() method
-      this.drawAllSketchFigures();
+      this._drawAllSketchFigures();
    }
 
    get data() {
