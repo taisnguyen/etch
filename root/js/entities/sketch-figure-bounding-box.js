@@ -52,15 +52,15 @@
         };
     }
 
-    draw(canvasContext) {
-        canvasContext.save();
-        canvasContext.strokeStyle = "green";
+    // draw(canvasContext) {
+    //     canvasContext.save();
+    //     canvasContext.strokeStyle = "green";
     
         
 
 
-        canvasContext.restore();
-    }
+    //     canvasContext.restore();
+    // }
 
 
 }
