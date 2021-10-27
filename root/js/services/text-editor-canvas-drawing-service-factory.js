@@ -60,7 +60,7 @@ class TextEditorCanvasDrawingService extends Service {
     }
 
     /**
-     * @param {function(canvasContext)} drawingFunction
+     * @param {function(canvasContext : CanvasRenderingContext2D)} drawingFunction
      */
     drawSaveToState(drawingFunction) {
         this.canvasContext.clearRect(0, 0, this.canvasContext.canvas.width, this.canvasContext.canvas.height);
