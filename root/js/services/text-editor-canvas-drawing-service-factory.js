@@ -27,17 +27,51 @@ class TextEditorCanvasDrawingService extends Service {
 
         this._textEditorCanvas = textEditorCanvas;
         this._canvasContext = textEditorCanvas.canvasContext;
+        this._stateCanvas = null;
         this._stateCanvasContext = null;
     
         this._initialize();
     }
 
+    _setStateCanvasContextSettings() {
+        this._stateCanvasContext.lineJoin = this.canvasContext.lineJoin;
+        this._stateCanvasContext.lineCap = this.canvasContext.lineCap;
+        this._stateCanvasContext.lineWidth = this.canvasContext.lineWidth;
+    }
+
+    adjustDimensions() {
+        this._stateCanvas.width = this.canvasContext.canvas.width;
+        this._stateCanvas.height = this.canvasContext.canvas.height;
+        this._setStateCanvasContextSettings();
+    }
+
     _initializeStateCanvasContext() {
-        const stateCanvas = document.createElement("canvas");
+        this._stateCanvas = document.createElement("canvas");
+
+        this._stateCanvasContext = this._stateCanvas.getContext("2d");
+
+        this._stateCanvas.width = this.canvasContext.canvas.width;
+        this._stateCanvas.height = this.canvasContext.canvas.height;
+        this.adjustDimensions();
     }
 
     _initialize() {
+        this._initializeStateCanvasContext();
+    }
 
+    /**
+     * @param {function(canvasContext)} drawingFunction
+     */
+    drawSaveToState(drawingFunction) {
+        this.canvasContext.clearRect(0, 0, this.canvasContext.canvas.width, this.canvasContext.canvas.height);
+        drawingFunction(this._stateCanvasContext);
+        this.canvasContext.drawImage(this._stateCanvas, 0, 0);
+    }
+
+    drawNoSaveToState(drawingFunction) {
+        this.canvasContext.clearRect(0, 0, this.canvasContext.canvas.width, this.canvasContext.canvas.height);
+        drawingFunction(this.canvasContext);
+        this.canvasContext.drawImage(this._stateCanvas, 0, 0);
     }
 
     get textEditorCanvas() {
@@ -48,6 +82,7 @@ class TextEditorCanvasDrawingService extends Service {
         return this._canvasContext;
     }
 
+    
 }
 
 export class TextEditorCanvasDrawingServiceFactory {
