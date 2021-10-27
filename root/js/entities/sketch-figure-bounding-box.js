@@ -30,7 +30,7 @@ import { TextEditorCanvasDrawingServiceFactory } from "../services/text-editor-c
 
     /**
      * @param {Object[]} sketchPoints
-     * @returns {number[]} minimum bounding rectangle coordinates with shape { minX: number, maxX: number, minY: number, maxY: number };
+     * @returns {Object} minimum bounding rectangle coordinates with shape { minX: number, maxX: number, minY: number, maxY: number };
      */
     static getMinimumBoundingRectangle(sketchPoints) {
         if (sketchPoints.length === 0) return;
@@ -48,10 +48,10 @@ import { TextEditorCanvasDrawingServiceFactory } from "../services/text-editor-c
         }
 
         return {
-            minX: minX, 
-            maxX: maxX, 
-            minY: minY, 
-            maxY: maxY 
+            minX: (maxX - minX < 14) ? minX - 7 : minX,
+            maxX: (maxX - minX < 14) ? minX + 7 : maxX, 
+            minY: (maxY - minY < 14) ? minY - 7 : minY, 
+            maxY: (maxY - minY < 14) ? minY + 7 : maxY
         };
     }
 
@@ -60,7 +60,9 @@ import { TextEditorCanvasDrawingServiceFactory } from "../services/text-editor-c
         
         drawingService.drawNoSaveToState((canvasContext) => {
             canvasContext.save();
-            canvasContext.strokeStyle = "green";
+
+            canvasContext.lineWidth = 1;
+            canvasContext.strokeStyle = "black";
             
             canvasContext.beginPath();
 
@@ -71,8 +73,6 @@ import { TextEditorCanvasDrawingServiceFactory } from "../services/text-editor-c
             canvasContext.lineTo(this.minX, this.minY);
 
             canvasContext.stroke();
-        
-
 
             canvasContext.restore();
         });
