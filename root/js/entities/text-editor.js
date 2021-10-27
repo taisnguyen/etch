@@ -11,6 +11,7 @@
 
 
 import { TextEditorCanvas } from "./text-editor-canvas.js";
+import { TextEditorCanvasDrawingServiceFactory } from "../services/text-editor-canvas-drawing-service-factory.js";
 
 
 
@@ -181,13 +182,14 @@ export class TextEditor {
                     mousePosition[0] <= sketchFigure.boundingBox.maxX &&
                     mousePosition[1] >= sketchFigure.boundingBox.minY &&
                     mousePosition[1] <= sketchFigure.boundingBox.maxY) {
-                        
-                        console.log('inside');
-
-                    } 
+                        console.log("inside");
+                        sketchFigure.boundingBox.draw(this.textEditorCanvas);
+                } else {
+                    // clear presentation canvas
+                    TextEditorCanvasDrawingServiceFactory.getService(this.textEditorCanvas).drawNoSaveToState(() => {});
+                }
             }
-
-
+            
         }
 
         // pencil action logic 
@@ -197,6 +199,8 @@ export class TextEditor {
             if(this._mouseDown)
                 this.textEditorCanvas.sketch(event);
         }
+
+
     }
 
     _onInput(event) {
@@ -211,7 +215,6 @@ export class TextEditor {
             this._addTab();
         }
     }
-
     
     get data() {
         return this._data;
