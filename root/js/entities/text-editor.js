@@ -42,7 +42,6 @@ export class TextEditor {
     }
 
     _attachToEventListeners() {
-        const textEditorContent = this.DOMElement.querySelector(".text-editor-content");
         const textEditorTextArea = this.DOMElement.querySelector(".text-editor-textarea");
 
         // text editor
@@ -54,8 +53,7 @@ export class TextEditor {
 
         this.DOMElement.addEventListener("mousedown", this._onMouseDown.bind(this));
         this.DOMElement.addEventListener("mouseup", this._onMouseUp.bind(this));
-        this.DOMElement.addEventListener("mousemove", this._onMouseMove.bind(this));
-
+        this.DOMElement.addEventListener("mousemove", this._onMouseMove.bind(this))
     }
 
     _initializeDOMElement() {
