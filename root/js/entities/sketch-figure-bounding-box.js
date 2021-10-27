@@ -10,6 +10,9 @@
  */
 
 
+import { TextEditorCanvasDrawingServiceFactory } from "../services/text-editor-canvas-drawing-service-factory.js";
+
+
 
 
 /** 
@@ -52,15 +55,28 @@
         };
     }
 
-    // draw(canvasContext) {
-    //     canvasContext.save();
-    //     canvasContext.strokeStyle = "green";
-    
+    draw(textEditorCanvas) {
+        const drawingService = TextEditorCanvasDrawingServiceFactory.getService(textEditorCanvas);
+        
+        drawingService.drawNoSaveToState((canvasContext) => {
+            canvasContext.save();
+            canvasContext.strokeStyle = "green";
+            
+            canvasContext.beginPath();
+
+            canvasContext.moveTo(this.minX, this.minY);
+            canvasContext.lineTo(this.minX, this.maxY);
+            canvasContext.lineTo(this.maxX, this.maxY);
+            canvasContext.lineTo(this.maxX, this.minY);
+            canvasContext.lineTo(this.minX, this.minY);
+
+            canvasContext.stroke();
         
 
 
-    //     canvasContext.restore();
-    // }
+            canvasContext.restore();
+        });
+    }
 
 
 }
