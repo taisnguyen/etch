@@ -54,6 +54,7 @@ export class SketchFigure {
 
     draw(textEditorCanvas, saveToState = false) {
         const drawingService = TextEditorCanvasDrawingServiceFactory.getService(textEditorCanvas);
+        
         const drawingFunction = (canvasContext) => {
             canvasContext.save();
             canvasContext.strokeStyle = this.color;
