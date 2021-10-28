@@ -55,27 +55,27 @@ import { TextEditorCanvasDrawingServiceFactory } from "../services/text-editor-c
         };
     }
 
-    draw(textEditorCanvas) {
-        const drawingService = TextEditorCanvasDrawingServiceFactory.getService(textEditorCanvas);
+    getArea() {
+        return (this.maxX - this.minX) * (this.maxY - this.minY);
+    }
+
+    draw(canvasContext) {
+        canvasContext.save();
+
+        canvasContext.lineWidth = 1;
+        canvasContext.strokeStyle = "black";
         
-        drawingService.drawNoSaveToState((canvasContext) => {
-            canvasContext.save();
+        canvasContext.beginPath();
 
-            canvasContext.lineWidth = 1;
-            canvasContext.strokeStyle = "black";
-            
-            canvasContext.beginPath();
+        canvasContext.moveTo(this.minX, this.minY);
+        canvasContext.lineTo(this.minX, this.maxY);
+        canvasContext.lineTo(this.maxX, this.maxY);
+        canvasContext.lineTo(this.maxX, this.minY);
+        canvasContext.lineTo(this.minX, this.minY);
 
-            canvasContext.moveTo(this.minX, this.minY);
-            canvasContext.lineTo(this.minX, this.maxY);
-            canvasContext.lineTo(this.maxX, this.maxY);
-            canvasContext.lineTo(this.maxX, this.minY);
-            canvasContext.lineTo(this.minX, this.minY);
+        canvasContext.stroke();
 
-            canvasContext.stroke();
-
-            canvasContext.restore();
-        });
+        canvasContext.restore();
     }
 
 
