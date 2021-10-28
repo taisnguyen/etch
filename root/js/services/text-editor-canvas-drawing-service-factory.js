@@ -27,51 +27,29 @@ class TextEditorCanvasDrawingService extends Service {
 
         this._textEditorCanvas = textEditorCanvas;
         this._canvasContext = textEditorCanvas.canvasContext;
-        this._stateCanvas = null;
-        this._stateCanvasContext = null;
+    }
+
+    drawAllDrawableObjects(drawableObjects) {
+        const arraysOfDrawableObjects = Object.values(drawableObjects);
+        for (const arrayOfDrawableObjects of arraysOfDrawableObjects) {
+            for (const drawableObject of arrayOfDrawableObjects) {
+                drawableObject.draw(this.canvasContext);
+            }
+        }
+    }
     
-        this._initialize();
-    }
-
-    _setStateCanvasContextSettings() {
-        this._stateCanvasContext.lineJoin = this.canvasContext.lineJoin;
-        this._stateCanvasContext.lineCap = this.canvasContext.lineCap;
-        this._stateCanvasContext.lineWidth = this.canvasContext.lineWidth;
-    }
-
-    adjustDimensions() {
-        this._stateCanvas.width = this.canvasContext.canvas.width;
-        this._stateCanvas.height = this.canvasContext.canvas.height;
-        this._setStateCanvasContextSettings();
-    }
-
-    _initializeStateCanvasContext() {
-        this._stateCanvas = document.createElement("canvas");
-
-        this._stateCanvasContext = this._stateCanvas.getContext("2d");
-
-        this._stateCanvas.width = this.canvasContext.canvas.width;
-        this._stateCanvas.height = this.canvasContext.canvas.height;
-        this.adjustDimensions();
-    }
-
-    _initialize() {
-        this._initializeStateCanvasContext();
+    refresh() {
+        this.canvasContext.clearRect(0, 0, this.canvasContext.canvas.width, this.canvasContext.canvas.height);
+        this.drawAllDrawableObjects(this.textEditorCanvas.drawableObjects);
     }
 
     /**
      * @param {function(canvasContext : CanvasRenderingContext2D)} drawingFunction
      */
-    drawSaveToState(drawingFunction) {
-        this.canvasContext.clearRect(0, 0, this.canvasContext.canvas.width, this.canvasContext.canvas.height);
-        drawingFunction(this._stateCanvasContext);
-        this.canvasContext.drawImage(this._stateCanvas, 0, 0);
-    }
-
-    drawNoSaveToState(drawingFunction) {
+    draw(drawingFunction) {
         this.canvasContext.clearRect(0, 0, this.canvasContext.canvas.width, this.canvasContext.canvas.height);
         drawingFunction(this.canvasContext);
-        this.canvasContext.drawImage(this._stateCanvas, 0, 0);
+        this.drawAllDrawableObjects(this.textEditorCanvas.drawableObjects);
     }
 
     get textEditorCanvas() {
