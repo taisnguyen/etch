@@ -11,6 +11,7 @@
 
 
 import { TextEditorCanvas } from "./text-editor-canvas.js";
+import { SketchFigure } from "./sketch-figure.js";
 import { TextEditorCanvasDrawingServiceFactory } from "../services/text-editor-canvas-drawing-service-factory.js";
 
 
@@ -37,7 +38,6 @@ export class TextEditor {
         this._mouseDown = false;
         this.currentAction = "cursor"
 
-
         this._initialize();
     }
 
@@ -45,12 +45,10 @@ export class TextEditor {
         const textEditorTextArea = this.DOMElement.querySelector(".text-editor-textarea");
 
         // text editor
-
         textEditorTextArea.addEventListener("input", this._onInput.bind(this));
         textEditorTextArea.addEventListener("keydown", this._onKeyDown.bind(this));
 
         // text editor canvas
-
         this.DOMElement.addEventListener("mousedown", this._onMouseDown.bind(this));
         this.DOMElement.addEventListener("mouseup", this._onMouseUp.bind(this));
         this.DOMElement.addEventListener("mousemove", this._onMouseMove.bind(this))
@@ -147,12 +145,21 @@ export class TextEditor {
 
             // cursor action logic
             if (this.currentAction === "cursor") {
+                
+                // logic to be able to select hovered SketchFigure objects
+                for (const sketchFigure of this.textEditorCanvas.sketchFigures) {
+                    if (sketchFigure.hovered) {
+                        sketchFigure.selected = true;
+                    }
+                }
+
 
             }
 
             // pencil action logic
-            if (this.currentAction === "pencil")
+            if (this.currentAction === "pencil") {
                 this.textEditorCanvas.sketch(event);
+            }
 
         }
     }
@@ -161,8 +168,9 @@ export class TextEditor {
         if (this._mouseDownButton === event["button"]) {
             this._mouseDown = false;
 
-            if (this.currentAction === "pencil")
+            if (this.currentAction === "pencil") {
                 this.textEditorCanvas.finishSketching();
+            }
 
         }
     }
@@ -174,21 +182,25 @@ export class TextEditor {
             const rect = this.textEditorCanvas.canvas.getBoundingClientRect();
             const mousePosition = [ event.pageX - rect.left, event.pageY - rect.top ];
 
-            // clear presentation canvas
-            TextEditorCanvasDrawingServiceFactory.getService(this.textEditorCanvas).drawNoSaveToState(() => {});
+            // refresh canvas
+            TextEditorCanvasDrawingServiceFactory.getService(this.textEditorCanvas).refresh();
 
             // iterate through SketchFigure objects and check for mouse hover
-            for (const sketchFigure of this.textEditorCanvas.sketchFigures) {
-                if (mousePosition[0] >= sketchFigure.boundingBox.minX && 
-                    mousePosition[0] <= sketchFigure.boundingBox.maxX &&
-                    mousePosition[1] >= sketchFigure.boundingBox.minY &&
-                    mousePosition[1] <= sketchFigure.boundingBox.maxY) {
-                        console.log("inside");
-                        sketchFigure.boundingBox.draw(this.textEditorCanvas);
-                }
-            }
+            SketchFigure.checkForHoveredSketchFigures(mousePosition[0], mousePosition[1], this.textEditorCanvas.sketchFigures, this.textEditorCanvas.canvasContext);
 
-            
+            // // drag and move selected SketchFigure objects
+            // if (this._mouseDown) {
+            //     if (this._mouseDownButton === 0) {
+            //         for (const sketchFigure of this.textEditorCanvas.sketchFigures) {
+            //             if (sketchFigure.selected) {
+            //                 sketchFigure.move(mousePosition[0], mousePosition[1]);
+            //                 sketchFigure.draw(this.textEditorCanvas, false);
+            //             }
+            //         }
+            //     }
+            // }
+
+
         }
 
         // pencil action logic 
@@ -198,7 +210,6 @@ export class TextEditor {
             if(this._mouseDown)
                 this.textEditorCanvas.sketch(event);
         }
-
 
     }
 
