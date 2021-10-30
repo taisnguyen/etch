@@ -27,6 +27,7 @@ export class TextEditorCanvas {
     * {
     *    textEditorCanvasDOMElement : reference to the DOM element representing the TextEditorCanvas
     *    textEditorDOMElement       : reference to the DOM element of a parent TextEditor if any
+    *    textEditor                 : reference to the TextEditor instance if any 
     * }
     */
 
@@ -91,22 +92,21 @@ export class TextEditorCanvas {
 
    showBlotGhost(event) {
       const drawingService = TextEditorCanvasDrawingServiceFactory.getService(this);
-      const rect = this.canvas.getBoundingClientRect();
-      const mousePosition = [ event.pageX - rect.left, event.pageY - rect.top ];
 
       // draw in blot ghost
       drawingService.draw((canvasContext) => {
          this.canvasContext.save();
          this.canvasContext.strokeStyle = "#4c4c4e"; /** TODO: add color argument when such a property exists */
          this.canvasContext.beginPath();
-         this.canvasContext.lineTo(mousePosition[0], mousePosition[1]);
+         this.canvasContext.lineTo(this.textEditor.mouseX, this.textEditor.mouseY);
          this.canvasContext.stroke();
          this.canvasContext.restore();
       });
    }
 
    finishSketching() {
-      this.sketchFigures.push(new SketchFigure(this._inProgressSketchFigure.sketchPoints)); /** TODO: add color argument when such a property exists */
+      if (this._inProgressSketchFigure)
+         this.sketchFigures.push(new SketchFigure(this._inProgressSketchFigure.sketchPoints)); /** TODO: add color argument when such a property exists */
       this._inProgressSketchFigure = null;
    }
 
@@ -116,13 +116,10 @@ export class TextEditorCanvas {
    }
 
    sketch(event) {
-      const rect = this.canvas.getBoundingClientRect();
-      const mousePosition = [ event.pageX - rect.left, event.pageY - rect.top ];
-
       if (this._inProgressSketchFigure === null) 
          this._inProgressSketchFigure = new SketchFigure(); /** TODO: add color argument when such a property exists */
 
-      this._inProgressSketchFigure.sketchPoints.push(new SketchPoint(mousePosition[0], mousePosition[1]));
+      this._inProgressSketchFigure.sketchPoints.push(new SketchPoint(this.textEditor.mouseX, this.textEditor.mouseY));
       this._drawInProgressSketchFigure();
    }
 
@@ -152,6 +149,10 @@ export class TextEditorCanvas {
 
    set data(data) {
       this._data = data;
+   }
+
+   get textEditor() {
+      return this.data["textEditor"];
    }
 
    get DOMElement() {
