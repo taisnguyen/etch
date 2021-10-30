@@ -11,7 +11,6 @@
 
 
 import { SketchFigureBoundingBox } from "./sketch-figure-bounding-box.js";
-import { TextEditorCanvasDrawingServiceFactory } from "../services/text-editor-canvas-drawing-service-factory.js";
 
 
 
@@ -28,11 +27,18 @@ export class SketchFigure {
     constructor(sketchPoints = [], color = "#222222") {
         this._boundingBox = null;
         this._sketchPoints = sketchPoints;
+        
+        this._midpointX = null;
+        this._midpointY = null;
 
-        this.x = null;
-        this.y = null;
-        this.selected = false;
-        this.hovered = false;
+        this._startingMidpointX = null;
+        this._startingMidpointY = null;
+
+        this.isSelected = false;
+        this.selectedX = null;
+        this.selectedY = null;
+
+        this.isHovered = false;
         this.color = color;
         
         this._initialize();
@@ -48,7 +54,12 @@ export class SketchFigure {
         let smallestHoveredSketchFigure = null;
 
         for (const sketchFigure of sketchFigures) {
-            sketchFigure.hovered = false;
+            if (sketchFigure.isSelected) {
+                smallestHoveredSketchFigure = sketchFigure;
+                break;
+            }
+
+            sketchFigure.isHovered = false;
             if (mouseX >= sketchFigure.boundingBox.minX && mouseX <= sketchFigure.boundingBox.maxX && mouseY >= sketchFigure.boundingBox.minY && mouseY <= sketchFigure.boundingBox.maxY) {
                 if (smallestHoveredSketchFigure === null)
                     smallestHoveredSketchFigure = sketchFigure;
@@ -58,34 +69,75 @@ export class SketchFigure {
         }
 
         // mouse currently not hovering over any SketchFigure
-        if (smallestHoveredSketchFigure === null) return;
+        if (smallestHoveredSketchFigure === null) return false;
 
-        smallestHoveredSketchFigure.hovered = true;
+        smallestHoveredSketchFigure.isHovered = true;
         smallestHoveredSketchFigure.boundingBox.draw(canvasContext);
+
+        return true;
     }
 
     _initializeBoundingBox() {
         const minimumBoundingRectangle = SketchFigureBoundingBox.getMinimumBoundingRectangle(this.sketchPoints);
-        if (minimumBoundingRectangle) {
+        if (minimumBoundingRectangle)
             this._boundingBox = new SketchFigureBoundingBox(minimumBoundingRectangle.minX, minimumBoundingRectangle.maxX, minimumBoundingRectangle.minY, minimumBoundingRectangle.maxY);
-            
-            // get midpoint of minimumBoundingRectangle
-            this.x = (minimumBoundingRectangle.minX + minimumBoundingRectangle.maxX) / 2 ;
-            this.y = (minimumBoundingRectangle.minY + minimumBoundingRectangle.maxY) / 2 ;
+    }
+
+    _setMidpoint() {
+        if (this.boundingBox) {
+            this._midpointX = (this.boundingBox.minX + this.boundingBox.maxX) / 2;
+            this._midpointY = (this.boundingBox.minY + this.boundingBox.maxY) / 2;
         }
     }
 
     _initialize() {
         this._initializeBoundingBox();
+        this._setMidpoint();
     }
 
-    move(mouseX, mouseY) {
-        this.x = mouseX;
-        this.y = mouseY;
+    updateStartingProperties() {
+        // update midpoint coordinates
+        this._startingMidpointX = this._midpointX;
+        this._startingMidpointY = this._midpointY;
+
+        // update starting positions of sketchPoint objects
+        for (const sketchPoint of this.sketchPoints) {
+            sketchPoint.startingX = sketchPoint.x;
+            sketchPoint.startingY = sketchPoint.y;
+        }
+    }
+
+    move(mouseX, mouseY, textEditorCanvas) {
+        for (const sketchPoint of this.sketchPoints) {
+            sketchPoint.x = sketchPoint.startingX + mouseX - this.selectedX;
+            sketchPoint.y = sketchPoint.startingY + mouseY - this.selectedY;
+        }
+
+        this._midpointX = this._startingMidpointX + mouseX - this.selectedX;
+        this._midpointY = this._startingMidpointY + mouseY - this.selectedY;
+
+        this._initializeBoundingBox();
+    }
+
+    rotate(angle, mouseX, mouseY) {
+        this.updateStartingProperties();
+        this.selectedX = mouseX;
+        this.selectedY = mouseY;
+
+        for (const sketchPoint of this.sketchPoints) {
+            const magnitude = Math.sqrt(Math.pow(sketchPoint.x - this._midpointX, 2) + Math.pow(sketchPoint.y - this._midpointY, 2));
+            let c = Math.atan2(sketchPoint.y - this._midpointY, sketchPoint.x - this._midpointX);
+            if(c < 0) c += 2*Math.PI;
+
+            sketchPoint.x = this._midpointX + magnitude * Math.cos(angle + c);
+            sketchPoint.y = this._midpointY + magnitude * Math.sin(angle + c);
+        }
+
+        this.updateStartingProperties();
+        this._initializeBoundingBox();
     }
 
     draw(canvasContext) {
-       
         canvasContext.save();
         canvasContext.strokeStyle = this.color;
         canvasContext.beginPath();
@@ -96,6 +148,7 @@ export class SketchFigure {
             for (let i = 0; i < this.sketchPoints.length; i++) {
                 canvasContext.lineTo(this.sketchPoints[i].x, this.sketchPoints[i].y);
             }
+
             canvasContext.stroke();
             canvasContext.restore();
             return;
@@ -111,6 +164,11 @@ export class SketchFigure {
         canvasContext.stroke();
         canvasContext.restore();
     };
+
+    delete() {
+        for(const editor of window.globalVariables["editors"]) 
+            editor.textEditorCanvas.sketchFigures.splice(editor.textEditorCanvas.sketchFigures.indexOf(this), 1);
+    }
 
     get boundingBox() {
         return this._boundingBox;
