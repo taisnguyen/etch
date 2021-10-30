@@ -13,9 +13,8 @@
 
 
 import { onSelectCursorAction, onSelectPencilAction, onSelectEraserAction } from "./ui/nav-bar.js";
-import { TextEditor } from "./entities/text-editor.js";
 import { SketchFigure } from "./entities/sketch-figure.js";
-import { SketchPoint } from "./entities/sketch-point.js";
+import { TextEditor } from "./entities/text-editor.js";
 
 
 
@@ -68,21 +67,25 @@ document.querySelector(".nav-bar-item-eraser").addEventListener("click", onSelec
     const keysPressed = [];
 
     document.addEventListener("keyup", (event) => {
-        keysPressed.splice(keysPressed.indexOf(event.key.toLowerCase()));
-        console.log("removed: " + keysPressed);
+        keysPressed.splice(keysPressed.indexOf(event.key.toLowerCase()), 1);
     }); 
 
     document.addEventListener("keydown", (event) => {
         if (!keysPressed.includes(event.key.toLowerCase()))
             keysPressed.push(event.key.toLowerCase());
 
-        console.log("pressed: " + keysPressed);
-
         // shortcut declarations
 
         // Cursor Tool : CTRL+1
         if (keysPressed[0] === "control" && keysPressed[1] === "1") {
+            for(const editor of window.globalVariables["editors"]) 
+                editor.textEditorCanvas.finishSketching();
+            
             onSelectCursorAction();
+
+            for(const editor of window.globalVariables["editors"]) 
+                SketchFigure.checkForHoveredSketchFigures(editor.mouseX, editor.mouseY, editor.textEditorCanvas.sketchFigures, editor.textEditorCanvas.canvasContext);
+
             return;   
         }
 
@@ -94,12 +97,15 @@ document.querySelector(".nav-bar-item-eraser").addEventListener("click", onSelec
 
         // Eraser Tool : CTRL+3
         if (keysPressed[0] === "control" && keysPressed[1] === "3") {
+            for(const editor of window.globalVariables["editors"]) 
+                editor.textEditorCanvas.finishSketching();
+            
             onSelectEraserAction();
             return;
         }
 
         if (keysPressed.length >= 2)
-            keysPressed[1] = "bruh";
+            keysPressed.splice(1, 1);
 
     });    
 })();
