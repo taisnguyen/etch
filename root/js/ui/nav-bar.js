@@ -34,6 +34,7 @@ function clearState() {
     document.querySelector(".nav-bar-item-pencil").style.pointerEvents = "auto";
     document.querySelector(".nav-bar-item-pencil").onmouseover = (event) => { event.target.style.backgroundColor = "var(--nav-bar-item-background-color-hover)"; };
     document.querySelector(".nav-bar-item-pencil").onmouseout = (event) => { event.target.style.backgroundColor = "var(--nav-bar-background-color)"; };
+    
     for(const editor of window.globalVariables["editors"]) 
         editor.textEditorCanvas.hideBlotGhost();
 
