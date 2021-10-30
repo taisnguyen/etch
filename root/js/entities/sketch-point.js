@@ -18,6 +18,8 @@
  export class SketchPoint {
 
     constructor(x, y) {
+        this.startingX = x;
+        this.startingY = y;
         this.x = x;
         this.y = y;
     }
