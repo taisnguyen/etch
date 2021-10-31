@@ -13,7 +13,6 @@
 
 
 // state variables
-
 var selectedAction = "";
 
 
@@ -86,6 +85,8 @@ export function onSelectPencilAction() {
         editor.DOMElement.querySelector(".text-editor-content").style.cursor = 'url("../images/cursor-pencil.png"), url("../images/cursor-pencil.png"), default';
         editor.DOMElement.querySelector(".line-numbers-wrapper").style.cursor = 'url("../images/cursor-pencil.png"), url("../images/cursor-pencil.png"), default';
         editor.DOMElement.querySelector(".text-editor-textarea").style.pointerEvents = "none";
+    
+        editor.unselectAllSketchFigureObjects();
     }
 }
 
@@ -108,5 +109,7 @@ export function onSelectEraserAction() {
         editor.DOMElement.querySelector(".text-editor-content").style.cursor = 'url("../images/cursor-eraser.png"), url("../images/cursor-eraser.png"), default';
         editor.DOMElement.querySelector(".line-numbers-wrapper").style.cursor = 'url("../images/cursor-eraser.png"), url("../images/cursor-eraser.png"), default';
         editor.DOMElement.querySelector(".text-editor-textarea").style.pointerEvents = "none";
+    
+        editor.unselectAllSketchFigureObjects();
     }
 }
