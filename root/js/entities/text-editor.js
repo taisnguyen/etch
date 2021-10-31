@@ -53,12 +53,12 @@ export class TextEditor {
 
         // text editor canvas
         this.DOMElement.addEventListener("mousedown", this._onMouseDown.bind(this));
-        this.DOMElement.addEventListener("mouseup", this._onMouseUp.bind(this));
         this.DOMElement.addEventListener("mousemove", this._onMouseMove.bind(this))
         this.DOMElement.addEventListener("mousewheel", this._onMouseWheel.bind(this));
-
+        
         // window
         window.addEventListener("keydown", this._onKeyDownWindow.bind(this));
+        window.addEventListener("mouseup", this._onMouseUp.bind(this));
     }
 
     _initializeDOMElement() {
@@ -149,6 +149,15 @@ export class TextEditor {
         event.preventDefault();
     }
 
+    unselectAllSketchFigureObjects() {
+        // disable isSelected property of all SketchFigure objects
+        for (const sketchFigure of this.textEditorCanvas.sketchFigures) {
+            sketchFigure.isSelected = false;
+            // refresh canvas
+            TextEditorCanvasDrawingServiceFactory.getService(this.textEditorCanvas).refresh();
+        }
+    }
+
     _onMouseDown(event) {
         if (!this._mouseDown) {
             this._mouseDown = true;
@@ -157,13 +166,20 @@ export class TextEditor {
             // cursor action logic
             if (this.currentAction === "cursor") {
 
+                this.unselectAllSketchFigureObjects();
+                
+                // check for hovered SketchFigure objects and draw their bounding boxes
+                SketchFigure.checkForHoveredSketchFigures(this.mouseX, this.mouseY, this.textEditorCanvas.sketchFigures, this.textEditorCanvas.canvasContext)
+                
                 // logic to be able to select hovered SketchFigure objects
                 for (const sketchFigure of this.textEditorCanvas.sketchFigures) {
                     if (sketchFigure.isHovered) {
-
+                        sketchFigure.isDragged = true;
+                        sketchFigure.draggedX = this.mouseX;
+                        sketchFigure.draggedY = this.mouseY;
                         sketchFigure.isSelected = true;
-                        sketchFigure.selectedX = this.mouseX;
-                        sketchFigure.selectedY = this.mouseY;
+
+                        sketchFigure.drawRotateIndicator(this.textEditorCanvas.canvasContext);
 
                         // unselect all selected text
                         if (window.getSelection) {window.getSelection().removeAllRanges();}
@@ -172,7 +188,6 @@ export class TextEditor {
                         break;
                     }
                 }
-
 
             }
 
@@ -185,7 +200,6 @@ export class TextEditor {
     }
 
     _onMouseUp(event) {
-
         // allow text hightlighting in editor textarea again
         this.DOMElement.querySelector("textarea").removeEventListener("mousedown", this._preventHighlight);
 
@@ -198,11 +212,14 @@ export class TextEditor {
 
         }
 
-        // disable selected property of all SketchFigure objects
+        // disable isDragged property of all SketchFigure objects
         for (const sketchFigure of this.textEditorCanvas.sketchFigures) {
             sketchFigure.updateStartingProperties();
-            sketchFigure.isSelected = false;
+            sketchFigure.isDragged = false;
         }
+
+        // refresh canvas
+        TextEditorCanvasDrawingServiceFactory.getService(this.textEditorCanvas).refresh();
     }
 
     _onMouseMove(event) {
@@ -217,7 +234,7 @@ export class TextEditor {
             // refresh canvas
             TextEditorCanvasDrawingServiceFactory.getService(this.textEditorCanvas).refresh();
 
-            // iterate through SketchFigure objects and check for mouse hover
+            // check for hovered SketchFigure objects and draw their bounding boxes
             if (SketchFigure.checkForHoveredSketchFigures(this.mouseX, this.mouseY, this.textEditorCanvas.sketchFigures, this.textEditorCanvas.canvasContext)) {
                 // disable text highlighting in editor textarea
                 this.DOMElement.querySelector("textarea").addEventListener("mousedown", this._preventHighlight);
@@ -227,8 +244,11 @@ export class TextEditor {
             if (this._mouseDown) {
                 if (this._mouseDownButton === 0) {
                     for (const sketchFigure of this.textEditorCanvas.sketchFigures) {
-                        if (sketchFigure.isSelected) {
+                        if (sketchFigure.isDragged) {
+
+                            sketchFigure.drawRotateIndicator(this.textEditorCanvas.canvasContext);
                             sketchFigure.move(this.mouseX, this.mouseY, this.textEditorCanvas);
+
                         }
                     }
                 }
@@ -249,26 +269,28 @@ export class TextEditor {
 
     _onMouseWheel(event) {
         const rect = this.textEditorCanvas.canvas.getBoundingClientRect();
-        const mousePosition = [ event.pageX - rect.left, event.pageY - rect.top ];
 
         // cursor action logic
         if (this.currentAction === "cursor") {
 
             // rotate selected SketchFigure objects
             for (const sketchFigure of this.textEditorCanvas.sketchFigures) 
-                if (sketchFigure.isSelected)
+                if (sketchFigure.isDragged)
                     if (event.deltaY > 0)
                         sketchFigure.rotate(0.1, this.mouseX, this.mouseY);
                     else
                         sketchFigure.rotate(-0.1, this.mouseX, this.mouseY);
         }
+
         // refresh canvas
         TextEditorCanvasDrawingServiceFactory.getService(this.textEditorCanvas).refresh();
 
         // iterate through SketchFigure objects and check for mouse hover
         SketchFigure.checkForHoveredSketchFigures(this.mouseX, this.mouseY, this.textEditorCanvas.sketchFigures, this.textEditorCanvas.canvasContext);
         
-    
+        for (const sketchFigure of this.textEditorCanvas.sketchFigures)
+            if (sketchFigure.isDragged) 
+                sketchFigure.drawRotateIndicator(this.textEditorCanvas.canvasContext);
     }
 
     _onInput(event) {
@@ -289,13 +311,14 @@ export class TextEditor {
         // delete selected SketchFigure object
         if (event.key === "Delete") {
             event.preventDefault();
-            for (const sketchFigure of this.textEditorCanvas.sketchFigures) 
-                if (sketchFigure.isHovered) {
-                    sketchFigure.delete();
+            for (let i = this.textEditorCanvas.sketchFigures.length - 1; i >= 0; i--) {
+                if (this.textEditorCanvas.sketchFigures[i].isSelected) {
+                    this.textEditorCanvas.sketchFigures[i].delete();
 
                     // refresh canvas
                     TextEditorCanvasDrawingServiceFactory.getService(this.textEditorCanvas).refresh();
                 }
+            }
         }
 
     }
