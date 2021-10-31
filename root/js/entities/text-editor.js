@@ -10,6 +10,7 @@
  */
 
 
+import { GlobalVariableRepositoryService } from "../services/global-variable-repository-service.js";
 import { TextEditorCanvas } from "./text-editor-canvas.js";
 import { SketchFigure } from "./sketch-figure.js";
 import { TextEditorCanvasDrawingServiceFactory } from "../services/text-editor-canvas-drawing-service-factory.js";
@@ -66,7 +67,8 @@ export class TextEditor {
         textEditorWrapper.innerHTML = '<div class="text-editor-content"><div class="line-numbers-wrapper"><span>1</span><span><br></span></div><textarea class="text-editor-textarea" spellcheck="false"></textarea><div id="text-editor-canvas"></div></div>';
 
         // increment global variable textEditorCount then set this.data["textEditorId"]
-        this.data["textEditorId"] = ++window.globalVariables["textEditorCount"];
+        GlobalVariableRepositoryService.setGlobalVariable("textEditorCount", GlobalVariableRepositoryService.getGlobalVariable("textEditorCount") + 1);
+        this.data["textEditorId"] = GlobalVariableRepositoryService.getGlobalVariable("textEditorCount");
         textEditorWrapper.classList.add("text-editor-wrapper");
         textEditorWrapper.id = "text-editor" + this.data["textEditorId"];
 
