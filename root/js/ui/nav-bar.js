@@ -10,6 +10,9 @@
  */
 
 
+import { GlobalVariableRepositoryService } from "../services/global-variable-repository-service.js";
+
+
 
 
 // state variables
@@ -34,7 +37,7 @@ function clearState() {
     document.querySelector(".nav-bar-item-pencil").onmouseover = (event) => { event.target.style.backgroundColor = "var(--nav-bar-item-background-color-hover)"; };
     document.querySelector(".nav-bar-item-pencil").onmouseout = (event) => { event.target.style.backgroundColor = "var(--nav-bar-background-color)"; };
     
-    for(const editor of window.globalVariables["editors"]) 
+    for (const editor of GlobalVariableRepositoryService.getGlobalVariable("editors"))
         editor.textEditorCanvas.hideBlotGhost();
 
     document.querySelector(".nav-bar-item-eraser").style.backgroundColor = "var(--nav-bar-background-color)";
@@ -58,7 +61,7 @@ export function onSelectCursorAction() {
     document.querySelector(".nav-bar-item-cursor").onmouseout = (event) => {};
 
 
-    for(const editor of window.globalVariables["editors"]) {
+    for (const editor of GlobalVariableRepositoryService.getGlobalVariable("editors")) {
         editor.currentAction = "cursor";
         editor.DOMElement.querySelector(".text-editor-content").style.cursor = "text";
         editor.DOMElement.querySelector(".line-numbers-wrapper").style.cursor = "default";
@@ -80,7 +83,7 @@ export function onSelectPencilAction() {
     document.querySelector(".nav-bar-item-pencil").onmouseout = (event) => {};
 
 
-    for(const editor of window.globalVariables["editors"]) {
+    for (const editor of GlobalVariableRepositoryService.getGlobalVariable("editors")) {
         editor.currentAction = "pencil"
         editor.DOMElement.querySelector(".text-editor-content").style.cursor = 'url("../images/cursor-pencil.png"), url("../images/cursor-pencil.png"), default';
         editor.DOMElement.querySelector(".line-numbers-wrapper").style.cursor = 'url("../images/cursor-pencil.png"), url("../images/cursor-pencil.png"), default';
@@ -104,7 +107,7 @@ export function onSelectEraserAction() {
     document.querySelector(".nav-bar-item-eraser").onmouseout = (event) => {};
     
 
-    for(const editor of window.globalVariables["editors"]) {
+    for (const editor of GlobalVariableRepositoryService.getGlobalVariable("editors")) {
         editor.currentAction = "eraser"
         editor.DOMElement.querySelector(".text-editor-content").style.cursor = 'url("../images/cursor-eraser.png"), url("../images/cursor-eraser.png"), default';
         editor.DOMElement.querySelector(".line-numbers-wrapper").style.cursor = 'url("../images/cursor-eraser.png"), url("../images/cursor-eraser.png"), default';
