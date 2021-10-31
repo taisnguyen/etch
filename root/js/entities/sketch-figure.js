@@ -34,9 +34,11 @@ export class SketchFigure {
         this._startingMidpointX = null;
         this._startingMidpointY = null;
 
+        this.isDragged = false;
+        this.draggedX = null;
+        this.draggedY = null;
+
         this.isSelected = false;
-        this.selectedX = null;
-        this.selectedY = null;
 
         this.isHovered = false;
         this.color = color;
@@ -54,7 +56,8 @@ export class SketchFigure {
         let smallestHoveredSketchFigure = null;
 
         for (const sketchFigure of sketchFigures) {
-            if (sketchFigure.isSelected) {
+
+            if (sketchFigure.isDragged) {
                 smallestHoveredSketchFigure = sketchFigure;
                 break;
             }
@@ -109,32 +112,53 @@ export class SketchFigure {
 
     move(mouseX, mouseY, textEditorCanvas) {
         for (const sketchPoint of this.sketchPoints) {
-            sketchPoint.x = sketchPoint.startingX + mouseX - this.selectedX;
-            sketchPoint.y = sketchPoint.startingY + mouseY - this.selectedY;
+            sketchPoint.x = sketchPoint.startingX + mouseX - this.draggedX;
+            sketchPoint.y = sketchPoint.startingY + mouseY - this.draggedY;
         }
 
-        this._midpointX = this._startingMidpointX + mouseX - this.selectedX;
-        this._midpointY = this._startingMidpointY + mouseY - this.selectedY;
+        this._midpointX = this._startingMidpointX + mouseX - this.draggedX;
+        this._midpointY = this._startingMidpointY + mouseY - this.draggedY;
 
         this._initializeBoundingBox();
     }
 
-    rotate(angle, mouseX, mouseY) {
+    rotate(angle, mouseX, mouseY, rotationPoint = null) {
         this.updateStartingProperties();
-        this.selectedX = mouseX;
-        this.selectedY = mouseY;
+        this.draggedX = mouseX;
+        this.draggedY = mouseY;
+
+        if (rotationPoint === null) {
+            rotationPoint = {
+                x: this._midpointX,
+                y: this._midpointY
+            };
+        }
 
         for (const sketchPoint of this.sketchPoints) {
-            const magnitude = Math.sqrt(Math.pow(sketchPoint.x - this._midpointX, 2) + Math.pow(sketchPoint.y - this._midpointY, 2));
-            let c = Math.atan2(sketchPoint.y - this._midpointY, sketchPoint.x - this._midpointX);
+            const magnitude = Math.sqrt(Math.pow(sketchPoint.x - rotationPoint.x, 2) + Math.pow(sketchPoint.y - rotationPoint.y, 2));
+            let c = Math.atan2(sketchPoint.y - rotationPoint.y, sketchPoint.x - rotationPoint.x);
             if(c < 0) c += 2*Math.PI;
 
-            sketchPoint.x = this._midpointX + magnitude * Math.cos(angle + c);
-            sketchPoint.y = this._midpointY + magnitude * Math.sin(angle + c);
+            sketchPoint.x = rotationPoint.x + magnitude * Math.cos(angle + c);
+            sketchPoint.y = rotationPoint.y + magnitude * Math.sin(angle + c);
         }
 
         this.updateStartingProperties();
         this._initializeBoundingBox();
+    }
+
+    async drawRotateIndicator(canvasContext) {
+        const rotateIndicatorImage = new Image();
+        rotateIndicatorImage.src = "../images/indicator-rotate.png";
+
+        // if rotateIndicatorImage is not cached, wait for it to load
+        // (the image is cached after the first time it is loaded)
+        if (!rotateIndicatorImage.complete)
+            await new Promise(resolve => rotateIndicatorImage.onload = resolve).then(() => {
+                canvasContext.drawImage(rotateIndicatorImage, Math.ceil(this.boundingBox.maxX) + 8, Math.ceil((this.boundingBox.minY + this.boundingBox.maxY) / 2) - 8, 16, 16);
+            });
+        else
+            canvasContext.drawImage(rotateIndicatorImage, Math.ceil(this.boundingBox.maxX) + 8, Math.ceil((this.boundingBox.minY + this.boundingBox.maxY) / 2) - 8, 16, 16);
     }
 
     draw(canvasContext) {
@@ -163,6 +187,11 @@ export class SketchFigure {
 
         canvasContext.stroke();
         canvasContext.restore();
+
+        // if selected, draw bounding box
+        if (this.isSelected) {
+            this.boundingBox.draw(canvasContext);
+        }
     };
 
     delete() {
