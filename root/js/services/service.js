@@ -12,6 +12,9 @@
  */
 
 
+import { GlobalVariableRepositoryService } from "../services/global-variable-repository-service.js";
+
+
 
 
 export class Service {
@@ -27,6 +30,6 @@ export class Service {
     destroy() {
         // TODO: add neccessary logic
 
-        window.globalVariables["services"].splice(window.globalVariables["services"].indexOf(this), 1);
+        GlobalVariableRepositoryService.getGlobalVariable("services").splice(window.globalVariables["services"].indexOf(this), 1);
     }
 } 
