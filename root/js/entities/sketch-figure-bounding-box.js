@@ -10,9 +10,6 @@
  */
 
 
-import { TextEditorCanvasDrawingServiceFactory } from "../services/text-editor-canvas-drawing-service-factory.js";
-
-
 
 
 /** 
@@ -67,11 +64,11 @@ import { TextEditorCanvasDrawingServiceFactory } from "../services/text-editor-c
         
         canvasContext.beginPath();
 
-        canvasContext.moveTo(this.minX, this.minY);
-        canvasContext.lineTo(this.minX, this.maxY);
-        canvasContext.lineTo(this.maxX, this.maxY);
-        canvasContext.lineTo(this.maxX, this.minY);
-        canvasContext.lineTo(this.minX, this.minY);
+        canvasContext.moveTo(Math.ceil(this.minX), Math.ceil(this.minY));
+        canvasContext.lineTo(Math.ceil(this.minX), Math.ceil(this.maxY));
+        canvasContext.lineTo(Math.ceil(this.maxX), Math.ceil(this.maxY));
+        canvasContext.lineTo(Math.ceil(this.maxX), Math.ceil(this.minY));
+        canvasContext.lineTo(Math.ceil(this.minX), Math.ceil(this.minY));
 
         canvasContext.stroke();
 
