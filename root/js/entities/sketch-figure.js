@@ -10,6 +10,7 @@
  */
 
 
+import { GlobalVariableRepositoryService } from "../services/global-variable-repository-service.js";
 import { SketchFigureBoundingBox } from "./sketch-figure-bounding-box.js";
 
 
@@ -195,7 +196,7 @@ export class SketchFigure {
     };
 
     delete() {
-        for(const editor of window.globalVariables["editors"]) 
+        for(const editor of GlobalVariableRepositoryService.getGlobalVariable("editors")) 
             editor.textEditorCanvas.sketchFigures.splice(editor.textEditorCanvas.sketchFigures.indexOf(this), 1);
     }
 
