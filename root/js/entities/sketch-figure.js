@@ -26,6 +26,8 @@ export class SketchFigure {
      * @param {string} color
      */    
     constructor(sketchPoints = [], color = "#222222") {
+        this._id = null;
+
         this._boundingBox = null;
         this._sketchPoints = sketchPoints;
         
@@ -81,6 +83,12 @@ export class SketchFigure {
         return true;
     }
 
+    _assignId() {
+        let id = "";
+        id += this.sketchPoints.length.toString() + this.boundingBox.minX.toString() + (Math.random() * 100).toString().replace(".", "");
+        this._id = id; 
+    }
+
     _initializeBoundingBox() {
         const minimumBoundingRectangle = SketchFigureBoundingBox.getMinimumBoundingRectangle(this.sketchPoints);
         if (minimumBoundingRectangle)
@@ -97,6 +105,9 @@ export class SketchFigure {
     _initialize() {
         this._initializeBoundingBox();
         this._setMidpoint();
+
+        if (this.boundingBox)
+            this._assignId();
     }
 
     updateStartingProperties() {
@@ -198,6 +209,10 @@ export class SketchFigure {
     delete() {
         for(const editor of GlobalVariableRepositoryService.getGlobalVariable("editors")) 
             editor.textEditorCanvas.sketchFigures.splice(editor.textEditorCanvas.sketchFigures.indexOf(this), 1);
+    }
+
+    get id() {
+        return this._id;
     }
 
     get boundingBox() {
