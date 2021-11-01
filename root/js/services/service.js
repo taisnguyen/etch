@@ -30,6 +30,6 @@ export class Service {
     destroy() {
         // TODO: add neccessary logic
 
-        GlobalVariableRepositoryService.getGlobalVariable("services").splice(window.globalVariables["services"].indexOf(this), 1);
+        GlobalVariableRepositoryService.getGlobalVariable("services").splice(GlobalVariableRepositoryService.getGlobalVariable("services").indexOf(this), 1);
     }
 } 
