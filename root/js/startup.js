@@ -115,6 +115,7 @@ document.addEventListener("keydown", (event) => {
 
     // Undo : CTRL+Z
     if (keysPressed[0] === "control" && keysPressed[1] === "z") {
+        event.preventDefault();
         console.log("undo");
     }
 

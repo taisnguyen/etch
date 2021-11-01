@@ -11,6 +11,7 @@
 
 
 import { GlobalVariableRepositoryService } from "../services/global-variable-repository-service.js";
+import { ProgramStateRepositoryServiceFactory } from "../services/program-state-repository-service-factory.js";
 import { TextEditorCanvas } from "./text-editor-canvas.js";
 import { SketchFigure } from "./sketch-figure.js";
 import { TextEditorCanvasDrawingServiceFactory } from "../services/text-editor-canvas-drawing-service-factory.js";
@@ -223,6 +224,10 @@ export class TextEditor {
 
         // refresh canvas
         TextEditorCanvasDrawingServiceFactory.getService(this.textEditorCanvas).refresh();
+
+        // update state
+        const programStateRepositoryService = ProgramStateRepositoryServiceFactory.getService(this.textEditorCanvas);
+        programStateRepositoryService.updateState();
     }
 
     _onMouseMove(event) {

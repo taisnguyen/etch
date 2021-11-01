@@ -37,6 +37,8 @@ export class SketchFigure {
         this._startingMidpointX = null;
         this._startingMidpointY = null;
 
+        this._rotation = 0;
+
         this.isDragged = false;
         this.draggedX = null;
         this.draggedY = null;
@@ -135,6 +137,8 @@ export class SketchFigure {
     }
 
     rotate(angle, mouseX, mouseY, rotationPoint = null) {
+        console.log(this.rotation);
+
         this.updateStartingProperties();
         this.draggedX = mouseX;
         this.draggedY = mouseY;
@@ -154,6 +158,9 @@ export class SketchFigure {
             sketchPoint.x = rotationPoint.x + magnitude * Math.cos(angle + c);
             sketchPoint.y = rotationPoint.y + magnitude * Math.sin(angle + c);
         }
+
+        this._rotation += angle;
+        this._rotation = Math.round(this.rotation * 10.0) / 10.0;
 
         this.updateStartingProperties();
         this._initializeBoundingBox();
@@ -221,6 +228,10 @@ export class SketchFigure {
 
     get sketchPoints() {
         return this._sketchPoints;
+    }
+
+    get rotation() {
+        return this._rotation;
     }
 
 }
