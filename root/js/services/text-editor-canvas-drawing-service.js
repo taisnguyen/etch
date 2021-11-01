@@ -10,7 +10,7 @@
  */
 
 
-import { Service } from "./service.js";
+import { Service } from "../entities/service.js";
 
 
 
