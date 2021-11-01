@@ -155,6 +155,7 @@ export class TextEditor {
         // disable isSelected property of all SketchFigure objects
         for (const sketchFigure of this.textEditorCanvas.sketchFigures) {
             sketchFigure.isSelected = false;
+            sketchFigure.isDragged = false;
             // refresh canvas
             TextEditorCanvasDrawingServiceFactory.getService(this.textEditorCanvas).refresh();
         }
