@@ -4,11 +4,24 @@
   "description": "A sketching app with the feel of an editor.",
   "main": "index.js",
   "scripts": {
-    "start": "electron ./js/main.js"
+    "start": "electron ./js/main.js",
+    "test": "jest --verbose"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.[t|j]sx?$": "babel-jest"
+    }
   },
   "author": "Tai Sanh Nguyen",
   "license": "MIT",
   "dependencies": {
+    "@babel/runtime": "^7.16.0",
     "electron": "^13.6.0"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.16.0",
+    "@babel/preset-env": "^7.16.0",
+    "babel-jest": "^27.3.1",
+    "jest": "^27.3.1"
   }
 }
