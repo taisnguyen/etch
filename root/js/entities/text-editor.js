@@ -131,7 +131,7 @@ export class TextEditor {
     _addTab() {
         const textEditorTextArea = this.DOMElement.querySelector(".text-editor-textarea");
 
-        const tabSpaceAmount = GlobalVariableRepositoryService.getGlobalVariable("editor.tabSpaceAmount");
+        const tabSpaceAmount = GlobalVariableRepositoryService.getGlobalVariable("userPreferences")["editor.tabSpaceAmount"];
         const selectionStart = textEditorTextArea.selectionStart;
 
         let beforeSelectionText = textEditorTextArea.value.substring(0, selectionStart);
