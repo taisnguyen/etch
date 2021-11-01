@@ -137,8 +137,6 @@ export class SketchFigure {
     }
 
     rotate(angle, mouseX, mouseY, rotationPoint = null) {
-        console.log(this.rotation);
-
         this.updateStartingProperties();
         this.draggedX = mouseX;
         this.draggedY = mouseY;
