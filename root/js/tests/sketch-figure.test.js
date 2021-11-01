@@ -20,4 +20,22 @@ describe("Tests for SketchFigure class", () => {
             else throw new Error("ID is not unique: " + sketchFigure.id);
         }
     });
+
+    it("SketchFigure instance id should be able to be parsed into a number", () => {
+        const testCount = 10000;
+
+        for (let i = 0; i < testCount; i++) {
+            const sketchPoints = [];
+            for (let i = 0; i < Math.ceil(Math.random()*100); i++) {
+                const point = new SketchPoint(Math.ceil(Math.random()*100), Math.ceil(Math.random()*100), Math.ceil(Math.random()*100));
+                sketchPoints.push(point);
+            }
+
+            const sketchFigure = new SketchFigure(sketchPoints);
+            sketchFigure._assignId();
+
+            const idNum = parseInt(sketchFigure.id);
+            expect(idNum).toEqual(expect.any(Number));
+        }
+    });
 });
