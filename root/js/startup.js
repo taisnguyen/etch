@@ -75,12 +75,12 @@ document.addEventListener("keydown", (event) => {
 
     // Cursor Tool : CTRL+1
     if (keysPressed[0] === "control" && keysPressed[1] === "1") {
-        for (const editor of window.globalVariables["editors"])
+        for (const editor of GlobalVariableRepositoryService.getGlobalVariable("editors"))
             editor.textEditorCanvas.finishSketching();
 
         onSelectCursorAction();
 
-        for (const editor of window.globalVariables["editors"])
+        for (const editor of GlobalVariableRepositoryService.getGlobalVariable("editors"))
             SketchFigure.checkForHoveredSketchFigures(editor.mouseX, editor.mouseY, editor.textEditorCanvas.sketchFigures, editor.textEditorCanvas.canvasContext);
 
         return;
@@ -106,7 +106,7 @@ document.addEventListener("keydown", (event) => {
 
     // Eraser Tool : CTRL+3
     if (keysPressed[0] === "control" && keysPressed[1] === "3") {
-        for (const editor of window.globalVariables["editors"])
+        for (const editor of GlobalVariableRepositoryService.getGlobalVariable("editors"))
             editor.textEditorCanvas.finishSketching();
 
         onSelectEraserAction();
