@@ -2,7 +2,7 @@ import { SketchPoint } from "../entities/sketch-point.js";
 import { SketchFigure } from "../entities/sketch-figure.js";
 
 describe("Tests for SketchFigure class", () => {
-    it("_assignId method should return a unique ID for SketchFigure object", () => {
+    it("_assignId method should return a sufficiently unique ID for SketchFigure object", () => {
         const testCount = 10000;
 
         const idMap = {};
