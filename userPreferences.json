@@ -1,0 +1,23 @@
+{
+    "editor.tabSpaceAmount": 4,
+    "editor.lineNumbersEnabled": "false",
+
+    "style.editorTextAreaBackgroundColor": "#ffffff",
+    "style.editorTextAreaTextFontFamily": "Consolas, monaco, monospace",
+    "style.editorTextAreaTextFontSize": "16px",
+    "style.editorTextAreaTextColor": "#222222",
+    "style.editorTextAreaTextBackgroundColorHighlight": "#dedddd",
+    "style.editorLineNumbersTextColor": "#222222",
+
+    "style.navBarBackgroundColor": "#2c2c2c",
+    "style.navBarItemBackgroundColorHover": "#000000",
+    "style.navBarItemBackgroundColorSelected": "#18a0fb",
+
+    "style.titleBarBackgroundColor": "#2b2b2b",
+    "style.titleBarButtonTextFontFamily": "Segoe UI, Frutiger, Frutiger Linotype, Dejavu Sans, Helvetica Neue, Arial, sans-serif",
+    "style.titleBarButtonTextColor": "#888888",
+    "style.titleBarButtonBackgroundColorHover": "#3b3b3b",
+
+    "style.scrollBarThumbBackgroundColor": "#f4f4f4",
+    "style.scrollBarThumbBackgroundColorHover": "#eaeaea"
+}
